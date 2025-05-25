@@ -1,0 +1,47 @@
+server:
+  port: 8023
+  servlet:
+    session:
+      cookie:
+        http-only: true # 提升Cookie安全性，防止XSS攻击
+    context-path: /
+  tomcat:
+    basedir: /data/temp
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/templates/
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  cache:
+    type: redis
+    serializer: json
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+#  supportMethodsArguments: true
+#  params: count=countSql
+#日志配置
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    cn.jay.repository: debug
+
+#,/app/**
+inner:
+  interceptorUrls: /**
+  excludeUrls: /swagger-resources/**, /v2/api-docs
+
+login:
+  salt: "fff_ichain_AAAAA"
