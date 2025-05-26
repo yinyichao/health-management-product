@@ -30,5 +30,5 @@ public class FolderCreateDto {
     /**
      * 用户ID
      */
-    private Long accountId;
+    private Integer accountId;
 }

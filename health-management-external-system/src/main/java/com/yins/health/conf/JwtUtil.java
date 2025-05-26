@@ -19,7 +19,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // JWT的主题
-    private static final String LOGIN_SUBJECT = "FuFeng_SN";
+    private static final String LOGIN_SUBJECT = "Health_SN";
 
     //分享主题
     private static final String SHARE_SUBJECT = "XDCLASS_SHARE";

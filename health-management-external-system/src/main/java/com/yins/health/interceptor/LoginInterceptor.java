@@ -7,7 +7,6 @@ import com.yins.health.common.ServiceException;
 import com.yins.health.conf.RedisKey;
 import com.yins.health.conf.RemoteServiceConfig;
 import com.yins.health.dto.AccountDto;
-import com.yins.health.entity.Account;
 import com.yins.health.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -60,7 +59,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 log.info("使用特殊API密钥访问，跳过验证");
                 // 设置预定义的用户信息到ThreadLocal
                 AccountDto accountDTO = AccountDto.builder()
-                    .id(Long.valueOf(remoteServiceConfig.getSpecialId()) )
+                    .id(Integer.valueOf(remoteServiceConfig.getSpecialId()) )
                     .username("boss")
                     .build();
                 threadLocal.set(accountDTO);
@@ -69,7 +68,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             // 5. 解析 Token 并设置用户信息
             JWT jwt = JWTUtil.parseToken(token);
-            Long userId = Long.parseLong(jwt.getPayload("accountId").toString());
+            Integer userId = Integer.parseInt(jwt.getPayload("accountId").toString());
             // 3. 验证 Token 有效性
             //String rawRedisToken = stringRedisTemplate.opsForValue().get(RedisKeyEnum.LOGIN_TOKEN.getPrefix()+tokenKey);
             String tokenKey = redisKey.token_key_pre + userId;

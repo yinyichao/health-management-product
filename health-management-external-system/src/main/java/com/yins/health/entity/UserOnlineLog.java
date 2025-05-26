@@ -14,10 +14,10 @@ public class UserOnlineLog implements Serializable {
 
     @TableId(type = IdType.AUTO)
     @Schema(description = "主键ID")
-    private Long id;
+    private Integer id;
 
     @Schema(description = "账号ID")
-    private Long accountId;
+    private Integer accountId;
 
     @Schema(description = "登录时间")
     private LocalDateTime loginTime;

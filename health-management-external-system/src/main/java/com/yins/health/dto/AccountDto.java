@@ -1,5 +1,9 @@
 package com.yins.health.dto;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -23,41 +27,27 @@ import java.util.Date;
 public class AccountDto implements Serializable {
 
     @Schema(description = "ID")
-    private Long id;
-
-    @Schema(description = "用户名")
+    private Integer id;
+    //创建人
+    @ApiModelProperty(value = "创建人")
+    private String createdUser;
+    //创建时间
+    @ApiModelProperty(value = "创建时间")
+    private Date createdTime;
+    //更新人
+    @ApiModelProperty(value = "更新人")
+    private String updatedUser;
+    //更新时间
+    @ApiModelProperty(value = "更新时间")
+    private Date updatedTime;
+    //用户名
+    @ApiModelProperty(value = "用户名")
     private String username;
+    //密码
+    @ApiModelProperty(value = "密码")
+    private String password;
+    //手机号
+    @ApiModelProperty(value = "手机号")
+    private String telephone;
 
-
-    @Schema(description = "用户头像")
-    private String avatarUrl;
-
-    @Schema(description = "手机号")
-    private String phone;
-
-    @Schema(description = "用户角色 COMMON, ADMIN")
-    private String role;
-
-    @Schema(description = "逻辑删除（1删除 0未删除）")
-    private Boolean del;
-
-    @Schema(description = "创建时间")
-    private Date gmtCreate;
-
-    @Schema(description = "更新时间")
-    private Date gmtModified;
-
-    /**
-     * 根文件夹ID
-     */
-    private Long rootFileId;
-    /**
-     * 根文件夹名称
-     */
-    private String rootFileName;
-
-    /**
-     * 存储信息
-     */
-    private StorageDTO storageDTO;
 }

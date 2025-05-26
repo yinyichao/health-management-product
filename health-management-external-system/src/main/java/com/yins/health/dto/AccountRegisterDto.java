@@ -14,7 +14,7 @@ import lombok.Data;
 public class AccountRegisterDto {
 
     @Schema(description = "用户id")
-    private Long id;
+    private Integer id;
     /**
      * 用户名
      */
@@ -31,23 +31,7 @@ public class AccountRegisterDto {
      * 手机号
      */
     @Schema(description = "手机号", required = true)
-    private String phone;
+    private String telephone;
 
-/*    *//**
-     * 头像
-     *//*
-    @Schema(description = "头像", required = true)
-    private String avatarUrl;*/
-
-
-    @Schema(description = "租户ID", required = true)
-    private  String tenantId;
-
-
-    @Schema(description = "角色1管理员2白名单3陌生人", required = true)
-    private  String role;
-
-    @Schema(description = "用户部门", required = true)
-    private  Long departmentId;
 
 }

@@ -31,7 +31,7 @@ public class AccountFileDto implements Serializable {
 
     @Schema(description = "用户ID")
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long accountId;
+    private Integer accountId;
 
     @Schema(description = "状态 0不是文件夹，1是文件夹")
     private Integer isDir;
