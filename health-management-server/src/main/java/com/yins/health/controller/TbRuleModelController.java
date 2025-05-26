@@ -1,42 +1,45 @@
 package com.yins.health.controller;
 
+
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yins.health.entity.TbTalentPolicy;
-import com.yins.health.service.TbTalentPolicyService;
-import com.yins.health.util.AppResult;
+import com.yins.health.entity.TbRuleModel;
+import com.yins.health.service.TbRuleModelService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import com.yins.health.util.AppResult;
 
 /**
- * 人才政策主表(TbTalentPolicy)表控制层
+ * 风险规则命中表(TbRuleModel)表控制层
  *
  * @author yinyichao
- * @since 2025-05-13 11:17:54
+ * @since 2025-05-26 17:09:03
  */
-@Api(tags = "人才政策主表API")
+@Api(tags = "风险规则命中表API")
 @RestController
-@RequestMapping("/api/tbTalentPolicy/v1")
-public class TbTalentPolicyController {
+@RequestMapping("tbRuleModel")
+public class TbRuleModelController {
     /**
      * 服务对象
      */
     @Resource
-    private TbTalentPolicyService tbTalentPolicyService;
+    private TbRuleModelService tbRuleModelService;
 
     /**
      * 分页查询所有数据
      *
      * @param page 分页对象
-     * @param tbTalentPolicy 查询实体
+     * @param tbRuleModel 查询实体
      * @return 所有数据
      */
     @GetMapping("/selectAll")
-    public AppResult selectAll(Page<TbTalentPolicy> page, TbTalentPolicy tbTalentPolicy) {
-        return AppResult.successResult(this.tbTalentPolicyService.page(page, new QueryWrapper<>(tbTalentPolicy)));
+    public AppResult selectAll(Page<TbRuleModel> page, TbRuleModel tbRuleModel) {
+        return AppResult.successResult(this.tbRuleModelService.page(page, new QueryWrapper<>(tbRuleModel)));
     }
 
     /**
@@ -47,29 +50,29 @@ public class TbTalentPolicyController {
      */
     @GetMapping("/selectOne/{id}")
     public AppResult selectOne(@PathVariable Serializable id) {
-        return AppResult.successResult(this.tbTalentPolicyService.getById(id));
+        return AppResult.successResult(this.tbRuleModelService.getById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param tbTalentPolicy 实体对象
+     * @param tbRuleModel 实体对象
      * @return 新增结果
      */
     @PostMapping("/insert")
-    public AppResult insert(@RequestBody TbTalentPolicy tbTalentPolicy) {
-        return AppResult.successResult(this.tbTalentPolicyService.save(tbTalentPolicy));
+    public AppResult insert(@RequestBody TbRuleModel tbRuleModel) {
+        return AppResult.successResult(this.tbRuleModelService.save(tbRuleModel));
     }
 
     /**
      * 修改数据
      *
-     * @param tbTalentPolicy 实体对象
+     * @param tbRuleModel 实体对象
      * @return 修改结果
      */
     @PostMapping("/update")
-    public AppResult update(@RequestBody TbTalentPolicy tbTalentPolicy) {
-        return AppResult.successResult(this.tbTalentPolicyService.updateById(tbTalentPolicy));
+    public AppResult update(@RequestBody TbRuleModel tbRuleModel) {
+        return AppResult.successResult(this.tbRuleModelService.updateById(tbRuleModel));
     }
 
     /**
@@ -80,7 +83,7 @@ public class TbTalentPolicyController {
      */
     @PostMapping("/delete")
     public AppResult delete(@RequestParam("idList") List<Long> idList) {
-        return AppResult.successResult(this.tbTalentPolicyService.removeByIds(idList));
+        return AppResult.successResult(this.tbRuleModelService.removeByIds(idList));
     }
 }
 

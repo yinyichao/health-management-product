@@ -59,9 +59,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 log.info("使用特殊API密钥访问，跳过验证");
                 // 设置预定义的用户信息到ThreadLocal
                 AccountDto accountDTO = AccountDto.builder()
-                    .id(Integer.valueOf(remoteServiceConfig.getSpecialId()) )
-                    .username("boss")
-                    .build();
+                        .id(Integer.valueOf(remoteServiceConfig.getSpecialId()) )
+                        .username("boss")
+                        .build();
                 threadLocal.set(accountDTO);
                 return true;
             }
