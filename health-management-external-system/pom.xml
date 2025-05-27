@@ -19,14 +19,12 @@
         <spring-boot.version>2.6.13</spring-boot.version>
         <mysql.version>8.0.28</mysql.version>
         <jwt.version>0.12.3</jwt.version>
-        <aws-java-sdk-s3.version>1.12.730</aws-java-sdk-s3.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.yins</groupId>
             <artifactId>health-management-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -43,12 +41,6 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jwt.version}</version>
-        </dependency>
-        <!-- AWS S3 SDK -->
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
-            <version>${aws-java-sdk-s3.version}</version>
         </dependency>
         <!--  spring-boot-starter-web排除tomcat -->
         <dependency>
@@ -86,11 +78,9 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.yins.health.HealthManagementExternalSystemApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
