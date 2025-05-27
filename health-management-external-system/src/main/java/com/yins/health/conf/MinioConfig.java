@@ -34,8 +34,8 @@ public class MinioConfig {
     @Value("avatar-bucket-name")
     private String avatarBucketName;
 
-    @Value("ai-bucket-name")
-    private String aiBucketName;
+    @Value("health-bucket-name")
+    private String healthBucketName;
 
 
 

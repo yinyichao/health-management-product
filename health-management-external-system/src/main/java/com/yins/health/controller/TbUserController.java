@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.yins.health.util.AppResult;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户表;(TbUser)表控制层
@@ -76,5 +77,6 @@ public class TbUserController {
         tbUserService.update(req);
         return AppResult.emptyResult();
     }
+
 }
 

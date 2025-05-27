@@ -27,7 +27,7 @@ minio:
   bucket-name: qf-pan
   bucket-name-public: qf-public
   avatar-bucket-name: avatar
-  ai-bucket-name: ai-pan
+  health-bucket-name: health-pan
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）

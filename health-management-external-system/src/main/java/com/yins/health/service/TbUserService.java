@@ -25,5 +25,6 @@ public interface TbUserService extends IService<TbUser> {
     void logout(HttpServletRequest request);
 
     void update(AccountRegisterDto req);
+
 }
 

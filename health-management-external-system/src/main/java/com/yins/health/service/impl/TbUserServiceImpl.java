@@ -15,7 +15,6 @@ import com.yins.health.constant.BizCodeEnum;
 import com.yins.health.dao.*;
 import com.yins.health.dto.AccountDto;
 import com.yins.health.dto.AccountRegisterDto;
-import com.yins.health.dto.FolderCreateDto;
 import com.yins.health.entity.*;
 import com.yins.health.exception.BizException;
 import com.yins.health.interceptor.LoginInterceptor;
@@ -46,9 +45,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements TbUserService {
 
-    /*@Autowired
-    private AccountFileService accountFileService;*/
-
     @Autowired
     private RedisKey redisKey;
 
@@ -59,6 +55,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
     private UserOnlineLogDao userOnlineLogDao;
     @Value( "${login.salt}")
     private String salt;
+
     /**
      * 1、查询手机号是否重复
      * 2、加密密码
@@ -81,14 +78,10 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
 
         //加密密码
         String digestAsHex = DigestUtils.md5DigestAsHex((AccountConfig.ACCOUNT_SALT + req.getPassword()).getBytes());
+        assert accountDO != null;
         accountDO.setPassword(digestAsHex);
         accountDO.setId(null);
         baseMapper.insert(accountDO);
-
-        //初始化根目录
-        FolderCreateDto createRootFolderReq = FolderCreateDto.builder().accountId(accountDO.getId()).parentId(AccountConfig.ROOT_PARENT_ID).folderName(AccountConfig.ROOT_FOLDER_NAME).build();
-
-        //accountFileService.createFolder(createRootFolderReq);
     }
 
     @Override
@@ -140,6 +133,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
         }
 
         AccountDto accountDTO = CommonUtil.convert(accountDO, AccountDto.class);
+        assert accountDTO != null;
         recordLogin(accountDTO.getId(),null,null);
 
         // set、
@@ -199,8 +193,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
     public AccountDto queryDetail(Integer id) {
         //账号详情
         TbUser accountDO = baseMapper.selectById(id);
-        AccountDto accountDTO = CommonUtil.convert(accountDO, AccountDto.class);
-        return accountDTO;
+        return CommonUtil.convert(accountDO, AccountDto.class);
     }
 }
 
