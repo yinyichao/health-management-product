@@ -36,8 +36,7 @@ public class TbRuleServiceImpl extends ServiceImpl<TbRuleDao, TbRule> implements
         IPage<TbRuleVo> page = new Page<>();
         page.setCurrent(tbRuleDto.getPageNum());
         page.setSize(tbRuleDto.getPageSize());
-        IPage<TbRuleVo> tbRuleVos = baseMapper.selectByPage(page,tbRuleDto);
-        return tbRuleVos;
+        return baseMapper.selectByPage(page,tbRuleDto);
     }
 }
 

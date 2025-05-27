@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TbViewDto extends Query {
-    //拜访者
     @ApiModelProperty(value = "拜访者")
     private String visitor;
-    //面试者
     @ApiModelProperty(value = "被拜访者")
     private String visitedPerson;
     @ApiModelProperty(value = "规则类型（高风险、中风险、低风险）")

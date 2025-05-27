@@ -2,11 +2,8 @@ package com.yins.health.controller;
 
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yins.health.entity.TbQuestionnaire;
 import com.yins.health.entity.dto.TbQuestionnaireDto;
-import com.yins.health.entity.dto.TbRuleDto;
 import com.yins.health.service.TbQuestionnaireService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;

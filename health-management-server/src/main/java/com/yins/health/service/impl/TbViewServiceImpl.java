@@ -26,14 +26,13 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
         IPage<TbView> page = new Page<>();
         page.setCurrent(tbViewDto.getPageNum());
         page.setSize(tbViewDto.getPageSize());
-        IPage<TbView> tbAddIPage = baseMapper.selectPage(page, new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0)
+        return baseMapper.selectPage(page, new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0)
                 .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getVisitor()), TbView::getVisitor, tbViewDto.getVisitor())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
                 .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginTime())
                 .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndTime()));
-        return tbAddIPage;
     }
 }
 

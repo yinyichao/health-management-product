@@ -8,7 +8,6 @@ import com.yins.health.entity.TbRuleModel;
 import com.yins.health.service.TbRuleModelService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TbQuestionnaireDto extends Query {
-    //应聘者
     @ApiModelProperty(value = "问卷名称")
     private String name;
     @ApiModelProperty(value = "问卷编号")

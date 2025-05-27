@@ -25,13 +25,12 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
         IPage<TbAdd> page = new Page<>();
         page.setCurrent(tbAddDto.getPageNum());
         page.setSize(tbAddDto.getPageSize());
-        IPage<TbAdd> tbAddIPage = baseMapper.selectPage(page, new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
+        return baseMapper.selectPage(page, new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
                 .eq(StringUtils.isNotEmpty(tbAddDto.getLabel()), TbAdd::getLabel, tbAddDto.getLabel())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getUsername()), TbAdd::getUsername, tbAddDto.getUsername())
                 .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginTime())
                 .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndTime()));
-        return tbAddIPage;
     }
 }
 

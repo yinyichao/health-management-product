@@ -1,9 +1,6 @@
 package com.yins.health.controller;
 
 
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yins.health.entity.TbAdd;
 import com.yins.health.entity.dto.TbAddDto;
 import com.yins.health.service.TbAddService;
