@@ -4,6 +4,7 @@ package com.yins.health.controller;
 
 import com.yins.health.entity.TbView;
 import com.yins.health.entity.dto.TbViewDto;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbViewService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -58,6 +59,8 @@ public class TbViewController {
      */
     @PostMapping("/insert")
     public AppResult insert(@RequestBody TbView tbView) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbView.setCreatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbViewService.save(tbView));
     }
 
@@ -69,6 +72,8 @@ public class TbViewController {
      */
     @PutMapping("/update")
     public AppResult update(@RequestBody TbView tbView) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbView.setUpdatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbViewService.updateById(tbView));
     }
 }

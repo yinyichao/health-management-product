@@ -7,6 +7,7 @@ import com.yins.health.dao.TbQuestionnaireDao;
 import com.yins.health.entity.TbQuestionnaire;
 import com.yins.health.entity.dto.TbQuestionnaireDto;
 import com.yins.health.entity.vo.TbQuestionnaireVo;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireService;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class TbQuestionnaireServiceImpl extends ServiceImpl<TbQuestionnaireDao, 
     public Integer delete(Integer id) {
         TbQuestionnaire tbQuestionnaire = baseMapper.selectById(id);
         tbQuestionnaire.setDel(1);
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setUpdatedUser(String.valueOf(userid));
         return baseMapper.updateById(tbQuestionnaire);
     }
 

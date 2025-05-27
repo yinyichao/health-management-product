@@ -9,6 +9,7 @@ import com.yins.health.dao.TbRuleDao;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.dto.TbRuleDto;
 import com.yins.health.entity.vo.TbRuleVo;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbRuleService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class TbRuleServiceImpl extends ServiceImpl<TbRuleDao, TbRule> implements
     public Integer delete(Integer id) {
         TbRule tbRule = baseMapper.selectById(id);
         tbRule.setDel(1);
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setUpdatedUser(String.valueOf(userid));
         return baseMapper.updateById(tbRule);
     }
 

@@ -4,6 +4,7 @@ package com.yins.health.controller;
 
 import com.yins.health.entity.TbQuestionnaire;
 import com.yins.health.entity.dto.TbQuestionnaireDto;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -57,6 +58,8 @@ public class TbQuestionnaireController {
      */
     @PostMapping("/insert")
     public AppResult insert(@RequestBody TbQuestionnaire tbQuestionnaire) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setCreatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbQuestionnaireService.save(tbQuestionnaire));
     }
 
@@ -68,6 +71,8 @@ public class TbQuestionnaireController {
      */
     @PutMapping("/update")
     public AppResult update(@RequestBody TbQuestionnaire tbQuestionnaire) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setUpdatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbQuestionnaireService.updateById(tbQuestionnaire));
     }
 

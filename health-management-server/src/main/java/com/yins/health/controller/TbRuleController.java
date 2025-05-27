@@ -4,6 +4,7 @@ package com.yins.health.controller;
 
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.dto.TbRuleDto;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbRuleService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -57,6 +58,8 @@ public class TbRuleController {
      */
     @PostMapping("/insert")
     public AppResult insert(@RequestBody TbRule tbRule) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setCreatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbRuleService.save(tbRule));
     }
 
@@ -68,6 +71,8 @@ public class TbRuleController {
      */
     @PutMapping("/update")
     public AppResult update(@RequestBody TbRule tbRule) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setUpdatedUser(String.valueOf(userid));
         return AppResult.successResult(this.tbRuleService.updateById(tbRule));
     }
 
