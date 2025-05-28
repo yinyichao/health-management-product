@@ -1,7 +1,5 @@
 package com.yins.health.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,9 +10,6 @@ import com.yins.health.entity.vo.TbRuleVo;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbRuleService;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 风险规则表;(TbRule)表服务实现类

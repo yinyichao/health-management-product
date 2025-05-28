@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yins.health.dao.TbViewDao;
-import com.yins.health.entity.TbAdd;
 import com.yins.health.entity.TbView;
 import com.yins.health.entity.dto.TbViewDto;
 import com.yins.health.service.TbViewService;

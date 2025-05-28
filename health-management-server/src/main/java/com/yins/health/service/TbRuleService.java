@@ -6,8 +6,6 @@ import com.yins.health.entity.TbRule;
 import com.yins.health.entity.dto.TbRuleDto;
 import com.yins.health.entity.vo.TbRuleVo;
 
-import java.util.List;
-
 /**
  * 风险规则表;(TbRule)表服务接口
  *

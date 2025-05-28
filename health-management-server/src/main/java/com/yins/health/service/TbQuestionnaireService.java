@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.yins.health.entity.TbQuestionnaire;
 import com.yins.health.entity.dto.TbQuestionnaireDto;
 import com.yins.health.entity.vo.TbQuestionnaireVo;
-import com.yins.health.entity.vo.TbRuleVo;
 
 /**
  * 采集问卷管理表;(TbQuestionnaire)表服务接口
