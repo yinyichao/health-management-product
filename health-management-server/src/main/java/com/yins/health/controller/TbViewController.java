@@ -6,6 +6,7 @@ import com.yins.health.entity.TbView;
 import com.yins.health.entity.dto.TbViewDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbViewService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 
@@ -36,6 +37,7 @@ public class TbViewController {
      * @return 所有数据
      */
     @GetMapping("/selectAll")
+    @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbViewDto tbViewDto) {
         return AppResult.successResult(this.tbViewService.pageByTbAdd(tbViewDto));
     }
@@ -47,6 +49,7 @@ public class TbViewController {
      * @return 单条数据
      */
     @GetMapping("/selectOne/{id}")
+    @Operation(summary = "通过主键查询单条数据")
     public AppResult selectOne(@PathVariable Serializable id) {
         return AppResult.successResult(this.tbViewService.getById(id));
     }
@@ -58,6 +61,7 @@ public class TbViewController {
      * @return 新增结果
      */
     @PostMapping("/insert")
+    @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbView tbView) {
         this.tbViewService.saveTbView(tbView);
         return AppResult.successResult("");
@@ -70,6 +74,7 @@ public class TbViewController {
      * @return 修改结果
      */
     @PutMapping("/update")
+    @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbView tbView) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbView.setUpdatedUser(String.valueOf(userid));

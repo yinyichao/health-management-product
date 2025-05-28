@@ -2,8 +2,8 @@ package com.yins.health.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yins.health.dao.TbTaskUserDao;
-import com.yins.health.entity.TbTaskUser;
-import com.yins.health.service.TbTaskUserService;
+import com.yins.health.entity.*;
+import com.yins.health.service.*;
 import org.springframework.stereotype.Service;
 
 /**

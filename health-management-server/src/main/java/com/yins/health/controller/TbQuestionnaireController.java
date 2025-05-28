@@ -6,6 +6,7 @@ import com.yins.health.entity.TbQuestionnaire;
 import com.yins.health.entity.dto.TbQuestionnaireDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
@@ -35,6 +36,7 @@ public class TbQuestionnaireController {
      * @return 所有数据
      */
     @PostMapping("/selectAll")
+    @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbQuestionnaireDto tbQuestionnaireDto) {
         return AppResult.successResult(this.tbQuestionnaireService.selectByPage(tbQuestionnaireDto));
     }
@@ -46,6 +48,7 @@ public class TbQuestionnaireController {
      * @return 单条数据
      */
     @GetMapping("/selectOne/{id}")
+    @Operation(summary = "通过主键查询单条数据")
     public AppResult selectOne(@PathVariable Serializable id) {
         return AppResult.successResult(this.tbQuestionnaireService.getById(id));
     }
@@ -57,6 +60,7 @@ public class TbQuestionnaireController {
      * @return 新增结果
      */
     @PostMapping("/insert")
+    @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbQuestionnaire tbQuestionnaire) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbQuestionnaire.setCreatedUser(String.valueOf(userid));
@@ -70,6 +74,7 @@ public class TbQuestionnaireController {
      * @return 修改结果
      */
     @PutMapping("/update")
+    @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbQuestionnaire tbQuestionnaire) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbQuestionnaire.setUpdatedUser(String.valueOf(userid));
@@ -82,6 +87,7 @@ public class TbQuestionnaireController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
+    @Operation(summary = "删除结果")
     public AppResult delete(@RequestParam("id") Integer id) {
         return AppResult.successResult(this.tbQuestionnaireService.delete(id));
     }

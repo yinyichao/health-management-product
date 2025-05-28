@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yins.health.entity.TbTask;
 import com.yins.health.entity.dto.TbTaskDto;
+import com.yins.health.entity.vo.TbMobileVo;
 import com.yins.health.entity.vo.TbTaskPageVo;
 import com.yins.health.entity.vo.TbTaskVo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 任务表;(TbTask)表服务接口
@@ -26,5 +28,7 @@ public interface TbTaskService extends IService<TbTask> {
     TbTaskVo getTbTaskById(Serializable id);
 
     IPage<TbTaskPageVo> selectByPage(TbTaskDto tbTaskDto);
+
+    List<TbMobileVo> seleteOne();
 }
 

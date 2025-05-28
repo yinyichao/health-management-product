@@ -6,6 +6,7 @@ import com.yins.health.entity.TbQuestionnaireItem;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireItemService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
@@ -34,6 +35,7 @@ public class TbQuestionnaireItemController {
      * @return 所有数据
      */
     @PostMapping("/selectAll")
+    @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbQuestionnaireItemDto tbQuestionnaireItemDto) {
         return AppResult.successResult(this.tbQuestionnaireItemService.pageByTbQuestionnaireItem(tbQuestionnaireItemDto));
     }
@@ -45,6 +47,7 @@ public class TbQuestionnaireItemController {
      * @return 单条数据
      */
     @GetMapping("/selectOne/{id}")
+    @Operation(summary = "通过主键查询单条数据")
     public AppResult selectOne(@PathVariable Serializable id) {
         return AppResult.successResult(this.tbQuestionnaireItemService.getTbQuestionnaireItemVoById(id));
     }
@@ -56,6 +59,7 @@ public class TbQuestionnaireItemController {
      * @return 新增结果
      */
     @PostMapping("/insert")
+    @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbQuestionnaireItem tbQuestionnaireItem) {
         this.tbQuestionnaireItemService.saveTbQuestionnaireItem(tbQuestionnaireItem);
         return AppResult.successResult("");
@@ -68,6 +72,7 @@ public class TbQuestionnaireItemController {
      * @return 修改结果
      */
     @PutMapping("/update")
+    @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbQuestionnaireItem tbQuestionnaireItem) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbQuestionnaireItem.setUpdatedUser(String.valueOf(userid));

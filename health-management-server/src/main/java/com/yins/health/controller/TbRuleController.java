@@ -6,6 +6,7 @@ import com.yins.health.entity.TbRule;
 import com.yins.health.entity.dto.TbRuleDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbRuleService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
@@ -35,6 +36,7 @@ public class TbRuleController {
      * @return 所有数据
      */
     @PostMapping("/selectAll")
+    @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbRuleDto tbRuleDto) {
         return AppResult.successResult(this.tbRuleService.selectByPage(tbRuleDto));
     }
@@ -46,6 +48,7 @@ public class TbRuleController {
      * @return 单条数据
      */
     @GetMapping("/selectOne/{id}")
+    @Operation(summary = "通过主键查询单条数据")
     public AppResult selectOne(@PathVariable Serializable id) {
         return AppResult.successResult(this.tbRuleService.getById(id));
     }
@@ -57,6 +60,7 @@ public class TbRuleController {
      * @return 新增结果
      */
     @PostMapping("/insert")
+    @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbRule tbRule) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbRule.setCreatedUser(String.valueOf(userid));
@@ -70,6 +74,7 @@ public class TbRuleController {
      * @return 修改结果
      */
     @PutMapping("/update")
+    @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbRule tbRule) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbRule.setUpdatedUser(String.valueOf(userid));
@@ -83,6 +88,7 @@ public class TbRuleController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
+    @Operation(summary = "删除结果")
     public AppResult delete(@RequestParam("id") Integer id) {
         return AppResult.successResult(this.tbRuleService.delete(id));
     }

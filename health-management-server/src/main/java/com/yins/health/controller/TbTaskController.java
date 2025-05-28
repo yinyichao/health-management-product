@@ -5,6 +5,7 @@ package com.yins.health.controller;
 import com.yins.health.entity.dto.TbTaskDto;
 import com.yins.health.entity.vo.TbTaskVo;
 import com.yins.health.service.TbTaskService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public class TbTaskController {
      * @return 所有数据
      */
     @PostMapping("/selectAll")
+    @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbTaskDto tbTaskDto) {
         return AppResult.successResult(this.tbTaskService.selectByPage(tbTaskDto));
     }
@@ -44,6 +46,7 @@ public class TbTaskController {
      * @return 单条数据
      */
     @GetMapping("/selectOne/{id}")
+    @Operation(summary = "通过主键查询单条数据")
     public AppResult selectOne(@PathVariable Serializable id) {
         return AppResult.successResult(this.tbTaskService.getTbTaskById(id));
     }
@@ -55,6 +58,7 @@ public class TbTaskController {
      * @return 新增结果
      */
     @PostMapping("/insert")
+    @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbTaskVo tbTaskVo) {
         this.tbTaskService.saveTbTask(tbTaskVo);
         return AppResult.successResult("");
@@ -67,6 +71,7 @@ public class TbTaskController {
      * @return 修改结果
      */
     @PutMapping("/update")
+    @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbTaskVo tbTaskVo) {
         this.tbTaskService.updateTbTask(tbTaskVo);
         return AppResult.successResult("");
@@ -78,6 +83,7 @@ public class TbTaskController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
+    @Operation(summary = "删除结果")
     public AppResult delete(@RequestParam("id") Integer id) {
         this.tbTaskService.removeTbTask(id);
         return AppResult.successResult("");
