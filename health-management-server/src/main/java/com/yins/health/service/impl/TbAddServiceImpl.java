@@ -6,10 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yins.health.dao.TbAddDao;
 import com.yins.health.entity.TbAdd;
+import com.yins.health.entity.TbRule;
+import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.dto.TbAddDto;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbAddService;
+import com.yins.health.service.TbRuleModelService;
+import com.yins.health.service.TbRuleService;
 import com.yins.health.util.StringUtils;
+import com.yins.health.util.TbRuleModelUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 增员管理表;(TbAdd)表服务实现类
@@ -19,6 +29,12 @@ import org.springframework.stereotype.Service;
  */
 @Service("tbAddService")
 public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements TbAddService {
+
+    @Autowired
+    private TbRuleService tbRuleService;
+    @Autowired
+    private TbRuleModelService tbRuleModelService;
+
 
     @Override
     public IPage<TbAdd> pageByTbAdd(TbAddDto tbAddDto) {
@@ -32,5 +48,43 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
                 .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginTime())
                 .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndTime()));
     }
+
+    @Override
+    public void saveTbAdd(TbAdd tbAdd) {
+        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        tbAdd.setCreatedUser(String.valueOf(userid));
+        List<TbRule> tbRuleList = tbRuleService.list(new LambdaQueryWrapper<TbRule>().eq(TbRule::getDel, 0)
+                .eq(TbRule::getState, 0).eq(TbRule::getType, "增员"));
+        String beginTime = "";
+        String ruleType = "";
+        List<TbRuleModel> list = new ArrayList<>();
+        for (TbRule tbRule : tbRuleList) {
+            switch (tbRule.getCycle()) {
+                case "每月":
+                    beginTime = TbRuleModelUtil.month();
+                    break;
+                case "每周":
+                    beginTime = TbRuleModelUtil.week();
+                    break;
+                case "每日":
+                    beginTime = TbRuleModelUtil.day();
+                    break;
+                case "小时":
+                    beginTime = TbRuleModelUtil.hours(tbRule.getHours());
+                    break;
+            }
+            Integer counts = baseMapper.selectCount(new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0).eq(TbAdd::getState, "有效")
+                    .ge(TbAdd::getUpdatedTime, beginTime));
+            ruleType = TbRuleModelUtil.getString(tbRule, counts, ruleType, list);
+        }
+        tbAdd.setLabel(ruleType);
+        baseMapper.insert(tbAdd);
+        for(TbRuleModel tbRuleModel : list){
+            tbRuleModel.setModelId(tbAdd.getId());
+        }
+        tbRuleModelService.saveBatch(list);
+    }
+
+
 }
 

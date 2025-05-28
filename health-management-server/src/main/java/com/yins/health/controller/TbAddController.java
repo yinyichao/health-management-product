@@ -56,9 +56,8 @@ public class TbAddController {
      */
     @PostMapping("/insert")
     public AppResult insert(@RequestBody TbAdd tbAdd) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbAdd.setCreatedUser(String.valueOf(userid));
-        return AppResult.successResult(this.tbAddService.save(tbAdd));
+        this.tbAddService.saveTbAdd(tbAdd);
+        return AppResult.successResult("");
     }
 
     /**

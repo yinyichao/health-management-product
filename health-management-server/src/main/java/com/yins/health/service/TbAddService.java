@@ -14,5 +14,7 @@ import com.yins.health.entity.dto.TbAddDto;
 public interface TbAddService extends IService<TbAdd> {
 
     IPage<TbAdd> pageByTbAdd(TbAddDto tbAddDto);
+
+    void saveTbAdd(TbAdd tbAdd);
 }
 

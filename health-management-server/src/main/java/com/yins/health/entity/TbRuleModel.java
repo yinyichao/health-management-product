@@ -41,8 +41,8 @@ public class TbRuleModel extends Model<TbRuleModel> {
 //创建时间
      @ApiModelProperty(value = "创建时间")
      @TableField(fill = FieldFill.INSERT)
-    @ExcelProperty(value = "createTime")
-    private Date createTime;
+    @ExcelProperty(value = "created_time")
+    private Date createdTime;
 
 }
 

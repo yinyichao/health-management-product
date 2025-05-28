@@ -59,9 +59,8 @@ public class TbViewController {
      */
     @PostMapping("/insert")
     public AppResult insert(@RequestBody TbView tbView) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbView.setCreatedUser(String.valueOf(userid));
-        return AppResult.successResult(this.tbViewService.save(tbView));
+        this.tbViewService.saveTbView(tbView);
+        return AppResult.successResult("");
     }
 
     /**

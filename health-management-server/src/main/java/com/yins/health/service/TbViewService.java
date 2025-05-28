@@ -14,5 +14,7 @@ import com.yins.health.entity.dto.TbViewDto;
 public interface TbViewService extends IService<TbView> {
 
     IPage<TbView> pageByTbAdd(TbViewDto tbViewDto);
+
+    void saveTbView(TbView tbView);
 }
 

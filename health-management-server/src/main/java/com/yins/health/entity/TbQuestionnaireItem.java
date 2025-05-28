@@ -13,61 +13,51 @@ import com.alibaba.excel.annotation.ExcelProperty;
 
 @Data
 @NoArgsConstructor
-@ApiModel("增员管理表;实体类")
+@ApiModel("问卷收集表;实体类")
 @SuppressWarnings("serial")
-@TableName("tb_add")
+@TableName("tb_questionnaire_item")
 /**
- * 增员管理表;(TbAdd)表实体类
+ * 问卷收集表;(TbQuestionnaireItem)表实体类
  *
  * @author yinyichao
- * @since 2025-05-26 17:17:43
+ * @since 2025-05-28 14:06:23
  */
-public class TbAdd extends Model<TbAdd> {
+public class TbQuestionnaireItem extends Model<TbQuestionnaireItem> {
 //ID
      @ApiModelProperty(value = "ID")
      @TableId(type = IdType.AUTO)
     @ExcelProperty(value = "id")
     private Integer id;
-//应聘者
-     @ApiModelProperty(value = "应聘者")
+//问卷主表ID
+     @ApiModelProperty(value = "问卷主表ID")
 
-    @ExcelProperty(value = "name")
-    private String name;
-//电话
-     @ApiModelProperty(value = "电话")
+    @ExcelProperty(value = "questionnaireId")
+    private Integer questionnaireId;
+//推送人
+     @ApiModelProperty(value = "推送人")
+
+    @ExcelProperty(value = "pushName")
+    private String pushName;
+//填写人电话
+     @ApiModelProperty(value = "填写人电话")
 
     @ExcelProperty(value = "telephone")
     private String telephone;
-//备注
-     @ApiModelProperty(value = "备注")
+//填写人
+     @ApiModelProperty(value = "填写人")
 
-    @ExcelProperty(value = "remark")
-    private String remark;
-//面试地点
-     @ApiModelProperty(value = "面试地点")
+    @ExcelProperty(value = "name")
+    private String name;
+//内容
+     @ApiModelProperty(value = "内容")
 
-    @ExcelProperty(value = "location")
-    private String location;
-//图片1
-     @ApiModelProperty(value = "图片1")
+    @ExcelProperty(value = "content")
+    private String content;
+//状态（作废、有效）
+     @ApiModelProperty(value = "状态（作废、有效）")
 
-    @ExcelProperty(value = "pic1")
-    private String pic1;
-//图片2
-     @ApiModelProperty(value = "图片2")
-
-    @ExcelProperty(value = "pic2")
-    private String pic2;
-//图片3
-     @ApiModelProperty(value = "图片3")
-
-    @ExcelProperty(value = "pic3")
-    private String pic3;
-//应聘登记表
-     @ApiModelProperty(value = "应聘登记表")
-
-    @ExcelProperty(value = "registration")
-    private String registration;
+    @ExcelProperty(value = "state")
+    private String state = "有效";
 //创建人
      @ApiModelProperty(value = "创建人")
 
@@ -93,26 +83,16 @@ public class TbAdd extends Model<TbAdd> {
 
     @ExcelProperty(value = "label")
     private String label;
+//风险说明
+     @ApiModelProperty(value = "风险说明")
+
+    @ExcelProperty(value = "labelContent")
+    private String labelContent;
 //删除字段（0、未删，1、删除）
      @ApiModelProperty(value = "删除字段（0、未删，1、删除）")
 
     @ExcelProperty(value = "del")
     private Integer del;
 
-
-    //状态（作废、有效）
-    @ApiModelProperty(value = "状态（作废、有效）")
-
-    @ExcelProperty(value = "state")
-    private String state = "有效";
-
-    //风险说明
-    @ApiModelProperty(value = "风险说明")
-
-    @ExcelProperty(value = "labelContent")
-    private String labelContent;
-    //面试者
-    @ApiModelProperty(value = "面试者")
-    private String username;
 }
 
