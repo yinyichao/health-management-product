@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> {
 
-    @Select("select i.*,q.name as questionnaire_name from tb_questionnaire_item i inner join tb_questionnaire q on i.questionnaire_id = q.id\n" +
+    @Select("select i.*,q.name as questionnaire_name from tb_questionnaire_item i inner join tb_questionnaire q on i.questionnaire_id = q.id " +
             "where i.id = #{id}")
     TbQuestionnaireItemVo getTbQuestionnaireItemVoById(@Param("id") Serializable id);
 

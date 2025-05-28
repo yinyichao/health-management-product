@@ -18,7 +18,7 @@ public interface TbQuestionnaireDao extends BaseMapper<TbQuestionnaire> {
     @Select({
             "<script>",
             "select q.id,q.ref,q.name,q.created_time,q.state,(select IFNULL(COUNT(i.id), 0) from tb_questionnaire_item i where q.id = i.questionnaire_id) as num ",
-            "from tb_questionnaire q",
+            "from tb_questionnaire q ",
             "WHERE q.del = 0 ",
             "<if test='dto.name != null and dto.name != \"\"'>",
             "  AND q.name LIKE CONCAT('%', #{dto.name}, '%')",

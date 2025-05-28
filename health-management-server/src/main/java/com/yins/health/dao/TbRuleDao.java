@@ -21,8 +21,8 @@ public interface TbRuleDao extends BaseMapper<TbRule> {
     @Select({
             "<script>",
             "SELECT r.id, r.name, r.content, r.rule_type, r.state, r.CREATED_TIME,",
-            "  (SELECT IFNULL(COUNT(m.id), 0) FROM tb_rule_model m WHERE r.id = m.rule_id) AS control_num",
-            "FROM tb_rule r",
+            "  (SELECT IFNULL(COUNT(m.id), 0) FROM tb_rule_model m WHERE r.id = m.rule_id) AS control_num ",
+            "FROM tb_rule r ",
             "WHERE r.del = 0 AND r.type = #{tbRuleDto.type}",
             "<if test='tbRuleDto.name != null and tbRuleDto.name != \"\"'>",
             "  AND r.name LIKE CONCAT('%', #{tbRuleDto.name}, '%')",
