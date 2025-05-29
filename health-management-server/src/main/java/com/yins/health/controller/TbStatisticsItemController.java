@@ -42,11 +42,10 @@ public class TbStatisticsItemController {
      *
      * @return 查询所有数据
      */
-    @GetMapping("/selectYearAll")
+    @PostMapping("/selectYearAll")
     @Operation(summary = "查询所有数据【年】")
-    public AppResult selectYearAll() {
-
-        return AppResult.successResult("");
+    public AppResult selectYearAll(@RequestBody TbStatisticsItemDto tbStatisticsItemDto) {
+        return AppResult.successResult(tbStatisticsItemService.selectYearAll(tbStatisticsItemDto));
     }
     /**
      * 通过主键查询单条数据

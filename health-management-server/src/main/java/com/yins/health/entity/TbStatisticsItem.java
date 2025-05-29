@@ -42,6 +42,10 @@ public class TbStatisticsItem extends Model<TbStatisticsItem> {
 
     @ExcelProperty(value = "cycle")
     private String cycle;
+    @ApiModelProperty(value = "年")
+
+    @ExcelProperty(value = "year")
+    private Integer year;
 //0、日；1、周；2、月
      @ApiModelProperty(value = "0、日；1、周；2、月")
 

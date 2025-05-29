@@ -58,7 +58,7 @@ public class TbStatisticsItemMonthVo {
             this.viewsWorksRate = "-";
         }else{
             double percentage = ((double) viewsWorks / viewsTasks) * 100;
-            DecimalFormat df = new DecimalFormat("#.00"); // 保留两位小数
+            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
             this.viewsWorksRate = df.format(percentage) + "%";
         }
     }
@@ -68,7 +68,7 @@ public class TbStatisticsItemMonthVo {
             this.addWorksRate = "-";
         }else{
             double percentage = ((double) addWorks / addTasks) * 100;
-            DecimalFormat df = new DecimalFormat("#.00"); // 保留两位小数
+            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
             this.addWorksRate = df.format(percentage) + "%";
         }
     }
@@ -78,7 +78,7 @@ public class TbStatisticsItemMonthVo {
             this.questionnaireWorksRate = "-";
         }else{
             double percentage = ((double) questionnaireWorks / questionnaireTasks) * 100;
-            DecimalFormat df = new DecimalFormat("#.00"); // 保留两位小数
+            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
             this.questionnaireWorksRate = df.format(percentage) + "%";
         }
     }

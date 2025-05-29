@@ -8,6 +8,7 @@ import com.yins.health.entity.*;
 import com.yins.health.entity.dto.TbStatisticsItemDto;
 import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbStatisticsItemMonthVo;
+import com.yins.health.entity.vo.TbStatisticsItemYearVo;
 import com.yins.health.service.*;
 import com.yins.health.util.CommonUtil;
 import com.yins.health.util.StringUtils;
@@ -72,6 +73,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
             counts = tbViewService.count(new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0).eq(TbView::getState, "有效")
                     .eq(TbView::getCreatedUser,tbStatistics.getUserId()).ge(TbView::getUpdatedTime, TbRuleModelUtil.month()));
             item.setViewsWorks(counts);
+            item.setYear(currentYear);
             saveList.add(item);
         }
         this.saveBatch(saveList);
@@ -85,10 +87,13 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
         // 如果想要以 "YYYY-MM" 的格式输出，可以使用格式化器
         // 获取当前年份
         LocalDate firstDayOfYear = LocalDate.now().withDayOfYear(1);
+
+        LocalDate endDayOfYear = currentDate.withMonth(12).withDayOfMonth(31);
         // 定义日期格式
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         // 转换为字符串
         String beginTime = firstDayOfYear.format(formatter);
+        String endTime = endDayOfYear.format(formatter);
 
         List<TbStatistics> list = tbStatisticsService.list(new LambdaQueryWrapper<TbStatistics>()
                 .eq(TbStatistics::getYear, currentYear).eq(TbStatistics::getDel,0));
@@ -97,9 +102,9 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
         Map<String,TbStatisticsItem> maps;
         for (TbStatistics tbStatistics : list) {
             TbTask tbTask = tbTaskDao.selectById(tbStatistics.getTaskId());
-            List<TbStatisticsItemVDto> itemList1 = tbQuestionnaireItemService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime);
-            List<TbStatisticsItemVDto> itemList2 = tbViewService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime);
-            List<TbStatisticsItemVDto> itemList3 = tbAddService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime);
+            List<TbStatisticsItemVDto> itemList1 = tbQuestionnaireItemService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime,endTime);
+            List<TbStatisticsItemVDto> itemList2 = tbViewService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime,endTime);
+            List<TbStatisticsItemVDto> itemList3 = tbAddService.findTbStatisticsItemVDto(tbStatistics.getUserId(),beginTime,endTime);
             maps = new HashMap<>();
             extracted(itemList1, maps, itemList2, itemList3);
             // 按键升序排序
@@ -124,7 +129,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                 Map.Entry<String, TbStatisticsItem> entry = iterator.next();
                 String key = entry.getKey();
                 item = entry.getValue();
-                day(tbStatistics, key, item, tbTask, saveList);
+                day(currentYear,tbStatistics, key, item, tbTask, saveList);
                 // 将字符串转换为 LocalDate
                 LocalDate givenDate = LocalDate.parse(key, formatter);
                 if(beginWeek == null){
@@ -158,6 +163,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                         itemWeek.setType(1);
                         itemWeek.setCycle(beginWeekStr);
                     }
+                    itemWeek.setYear(currentYear);
                     itemWeek.setQuestionnaireTasks(tbTask.getWeekQuestionnaireTasks());
                     itemWeek.setAddTasks(tbTask.getWeekAddTasks());
                     itemWeek.setViewsTasks(tbTask.getWeekViewsTasks());
@@ -195,6 +201,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                             itemWeek.setType(1);
                             itemWeek.setCycle(beginWeekStr);
                         }
+                        itemWeek.setYear(currentYear);
                         itemWeek.setQuestionnaireTasks(tbTask.getWeekQuestionnaireTasks());
                         itemWeek.setAddTasks(tbTask.getWeekAddTasks());
                         itemWeek.setViewsTasks(tbTask.getWeekViewsTasks());
@@ -209,7 +216,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
         this.saveOrUpdateBatch(saveList);
     }
 
-    private void day(TbStatistics tbStatistics, String key, TbStatisticsItem item, TbTask tbTask, List<TbStatisticsItem> saveList) {
+    private void day(int currentYear,TbStatistics tbStatistics, String key, TbStatisticsItem item, TbTask tbTask, List<TbStatisticsItem> saveList) {
         TbStatisticsItem oldItem = baseMapper.selectOne(new LambdaQueryWrapper<TbStatisticsItem>().eq(TbStatisticsItem::getUserId, tbStatistics.getUserId())
                 .eq(TbStatisticsItem::getCycle, key).eq(TbStatisticsItem::getType,0));
         if(oldItem!=null){
@@ -220,6 +227,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
             item.setType(0);
             item.setCycle(key);
         }
+        item.setYear(currentYear);
         item.setQuestionnaireTasks(tbTask.getDayQuestionnaireTasks());
         item.setAddTasks(tbTask.getDayAddTasks());
         item.setViewsTasks(tbTask.getDayViewsTasks());
@@ -314,6 +322,13 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                 .orderByAsc(TbStatisticsItem::getUserId,TbStatisticsItem::getCycle));
         List<TbStatisticsItemMonthVo> list = CommonUtil.convert(tbStatisticsItems, TbStatisticsItemMonthVo.class);
         TbStatisticsItemMonthVo.change(list);
+        return list;
+    }
+
+    @Override
+    public List<TbStatisticsItemYearVo> selectYearAll(TbStatisticsItemDto tbStatisticsItemDto) {
+        List<TbStatisticsItemYearVo> list = baseMapper.selectYearAll(tbStatisticsItemDto);
+        TbStatisticsItemYearVo.change(list);
         return list;
     }
 

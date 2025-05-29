@@ -19,6 +19,6 @@ public interface TbAddService extends IService<TbAdd> {
     IPage<TbAdd> pageByTbAdd(TbAddDto tbAddDto);
 
     void saveTbAdd(TbAdd tbAdd);
-    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime);
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime);
 }
 

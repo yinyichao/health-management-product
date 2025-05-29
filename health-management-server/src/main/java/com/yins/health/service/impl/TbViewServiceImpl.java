@@ -86,8 +86,8 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
     }
 
     @Override
-    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime) {
-        return baseMapper.findTbStatisticsItemVDto(userId,beginTime);
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime) {
+        return baseMapper.findTbStatisticsItemVDto(userId,beginTime,endTime);
     }
 }
 

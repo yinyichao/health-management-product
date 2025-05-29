@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.yins.health.entity.TbStatisticsItem;
 import com.yins.health.entity.dto.TbStatisticsItemDto;
 import com.yins.health.entity.vo.TbStatisticsItemMonthVo;
+import com.yins.health.entity.vo.TbStatisticsItemYearVo;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface TbStatisticsItemService extends IService<TbStatisticsItem> {
     void day_week();
 
     List<TbStatisticsItemMonthVo> selectMonthAll(TbStatisticsItemDto tbStatisticsItemDto);
+
+    List<TbStatisticsItemYearVo> selectYearAll(TbStatisticsItemDto tbStatisticsItemDto);
 }
 

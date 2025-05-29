@@ -24,6 +24,6 @@ public interface TbQuestionnaireItemService extends IService<TbQuestionnaireItem
 
     IPage<TbQuestionnaireItemVo> pageByTbQuestionnaireItem(TbQuestionnaireItemDto tbQuestionnaireItemDto);
 
-    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime);
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime);
 }
 

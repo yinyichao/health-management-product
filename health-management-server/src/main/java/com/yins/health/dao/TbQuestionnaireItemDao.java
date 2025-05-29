@@ -49,7 +49,8 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
     IPage<TbQuestionnaireItemVo> selectByPage(IPage<TbQuestionnaireItemVo> page,@Param("dto") TbQuestionnaireItemDto tbQuestionnaireItemDto);
 
     @Select("select count(*) as works,DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') as time from tb_questionnaire_item " +
-            "where CREATED_user = #{userId} and del = 0 and state = '有效' and DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') >= #{beginTime} group by DATE_FORMAT(CREATED_TIME, '%Y-%m-%d')")
-    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(@Param("userId")Integer userId,@Param("beginTime")String beginTime);
+            "where CREATED_user = #{userId} and del = 0 and state = '有效' and DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') >= #{beginTime} " +
+            "and DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') <= #{endTime} group by DATE_FORMAT(CREATED_TIME, '%Y-%m-%d')")
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(@Param("userId")Integer userId,@Param("beginTime")String beginTime,@Param("endTime")String endTime);
 }
 
