@@ -8,6 +8,7 @@ import com.yins.health.dao.TbViewDao;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.TbView;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.dto.TbViewDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbRuleModelService;
@@ -82,6 +83,11 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
             tbRuleModel.setModelId(tbView.getId());
         }
         tbRuleModelService.saveBatch(list);
+    }
+
+    @Override
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime) {
+        return baseMapper.findTbStatisticsItemVDto(userId,beginTime);
     }
 }
 

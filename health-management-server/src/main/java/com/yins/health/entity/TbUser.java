@@ -1,7 +1,6 @@
 package com.yins.health.entity;
 
-import java.util.Date;
-
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -9,7 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.alibaba.excel.annotation.ExcelProperty;
+
+import java.util.Date;
 
 @Data
 @NoArgsConstructor

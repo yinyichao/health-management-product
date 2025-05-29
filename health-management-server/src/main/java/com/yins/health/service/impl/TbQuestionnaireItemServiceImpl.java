@@ -9,6 +9,7 @@ import com.yins.health.entity.TbQuestionnaireItem;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbQuestionnaireItemVo;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireItemService;
@@ -82,6 +83,11 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
         page.setCurrent(tbQuestionnaireItemDto.getPageNum());
         page.setSize(tbQuestionnaireItemDto.getPageSize());
         return baseMapper.selectByPage(page,tbQuestionnaireItemDto);
+    }
+
+    @Override
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime) {
+        return baseMapper.findTbStatisticsItemVDto(userId,beginTime);
     }
 }
 

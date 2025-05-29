@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yins.health.entity.TbAdd;
 import com.yins.health.entity.dto.TbAddDto;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
+
+import java.util.List;
 
 /**
  * 增员管理表;(TbAdd)表服务接口
@@ -16,5 +19,6 @@ public interface TbAddService extends IService<TbAdd> {
     IPage<TbAdd> pageByTbAdd(TbAddDto tbAddDto);
 
     void saveTbAdd(TbAdd tbAdd);
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime);
 }
 

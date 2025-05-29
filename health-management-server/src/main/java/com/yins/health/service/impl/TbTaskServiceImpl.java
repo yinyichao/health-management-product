@@ -40,15 +40,19 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
     private TbViewService tbViewService;
     @Autowired
     private TbAddService tbAddService;
+    @Autowired
+    private TbStatisticsService tbStatisticsService;
 
     @Override
     public void removeTbTask(Integer id) {
-        TbTaskVo tbTaskVo = new TbTaskVo();
         Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbTaskVo.setUpdatedUser(String.valueOf(userid));
-        tbTaskVo.setId(id);
-        tbTaskVo.setDel(1);
-        baseMapper.updateById(tbTaskVo);
+        TbTask tbTask = baseMapper.selectById(id);
+        tbTask.setUpdatedUser(String.valueOf(userid));
+        tbTask.setId(id);
+        tbTask.setDel(1);
+        baseMapper.updateById(tbTask);
+        List<TbTaskUser> taskUserList = tbTaskUserService.list(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId, id));
+        tbStatisticsService.deleteTbStatistics(taskUserList,tbTask.getYear());
         tbTaskUserService.remove(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId,id));
     }
 
@@ -57,6 +61,8 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbTaskVo.setUpdatedUser(String.valueOf(userid));
         baseMapper.updateById(tbTaskVo);
+        List<TbTaskUser> taskUserList = tbTaskUserService.list(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId, tbTaskVo.getId()));
+        tbStatisticsService.updateTbStatistics(tbTaskVo,taskUserList);
         tbTaskUserService.remove(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId,tbTaskVo.getId()));
         List<TbTaskUser> list = new ArrayList<TbTaskUser>();
         tbTaskVo.getUserIds().forEach(userId -> {
@@ -80,12 +86,16 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
             tbTaskUser.setUserId(userId);
             list.add(tbTaskUser);
         });
+        tbStatisticsService.saveTbStatistics(tbTaskVo);
         tbTaskUserService.saveBatch(list);
     }
 
     @Override
     public TbTaskVo getTbTaskById(Serializable id) {
         TbTask tbTask = baseMapper.selectById(id);
+        if(tbTask == null){
+            return null;
+        }
         TbTaskVo tbTaskVo = CommonUtil.convert(tbTask, TbTaskVo.class);
         List<TbTaskUser> taskUserList = tbTaskUserService.list(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId, id));
         List<Integer> userIdList = taskUserList.stream()

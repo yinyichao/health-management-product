@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.yins.health.entity.TbQuestionnaireItem;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbQuestionnaireItemVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 问卷收集表;(TbQuestionnaireItem)表数据库访问层
@@ -45,5 +47,9 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
             "</script>"
     })
     IPage<TbQuestionnaireItemVo> selectByPage(IPage<TbQuestionnaireItemVo> page,@Param("dto") TbQuestionnaireItemDto tbQuestionnaireItemDto);
+
+    @Select("select count(*) as works,DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') as time from tb_questionnaire_item " +
+            "where CREATED_user = #{userId} and del = 0 and state = '有效' and DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') >= #{beginTime} group by DATE_FORMAT(CREATED_TIME, '%Y-%m-%d')")
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(@Param("userId")Integer userId,@Param("beginTime")String beginTime);
 }
 

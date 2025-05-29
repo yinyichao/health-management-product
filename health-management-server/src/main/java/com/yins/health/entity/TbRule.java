@@ -25,7 +25,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 public class TbRule extends Model<TbRule> {
 //ID
      @ApiModelProperty(value = "ID")
-     @TableId(type = IdType.INPUT)
+     @TableId(type = IdType.AUTO)
     @ExcelProperty(value = "id")
     private Integer id;
 //名称

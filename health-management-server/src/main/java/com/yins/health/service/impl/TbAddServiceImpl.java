@@ -9,6 +9,7 @@ import com.yins.health.entity.TbAdd;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.dto.TbAddDto;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbAddService;
 import com.yins.health.service.TbRuleModelService;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -83,6 +85,11 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
             tbRuleModel.setModelId(tbAdd.getId());
         }
         tbRuleModelService.saveBatch(list);
+    }
+
+    @Override
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime) {
+        return baseMapper.findTbStatisticsItemVDto(userId,beginTime);
     }
 
 

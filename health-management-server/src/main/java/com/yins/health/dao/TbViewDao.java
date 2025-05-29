@@ -2,6 +2,11 @@ package com.yins.health.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yins.health.entity.TbView;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 面见管理表;(TbView)表数据库访问层
@@ -11,5 +16,8 @@ import com.yins.health.entity.TbView;
  */
 public interface TbViewDao extends BaseMapper<TbView> {
 
+    @Select("select count(*) as works,DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') as time from tb_view " +
+            "where CREATED_user = #{userId} and del = 0 and state = '有效' and DATE_FORMAT(CREATED_TIME, '%Y-%m-%d') >= #{beginTime} group by DATE_FORMAT(CREATED_TIME, '%Y-%m-%d')")
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(@Param("userId")Integer userId,@Param("beginTime")String beginTime);
 }
 

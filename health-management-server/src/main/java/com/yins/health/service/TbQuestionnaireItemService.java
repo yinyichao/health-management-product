@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yins.health.entity.TbQuestionnaireItem;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
+import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbQuestionnaireItemVo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 问卷收集表;(TbQuestionnaireItem)表服务接口
@@ -21,5 +23,7 @@ public interface TbQuestionnaireItemService extends IService<TbQuestionnaireItem
     void saveTbQuestionnaireItem(TbQuestionnaireItem tbQuestionnaireItem);
 
     IPage<TbQuestionnaireItemVo> pageByTbQuestionnaireItem(TbQuestionnaireItemDto tbQuestionnaireItemDto);
+
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime);
 }
 

@@ -2,6 +2,8 @@ package com.yins.health.util;
 
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
+import com.yins.health.entity.TbStatisticsItem;
+import com.yins.health.entity.TbTask;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -9,7 +11,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TbRuleModelUtil {
     public static String getString(TbRule tbRule, Integer counts, String ruleType, List<TbRuleModel> list) {
@@ -59,5 +64,78 @@ public class TbRuleModelUtil {
         LocalDateTime ago = now.minusHours(hour);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return ago.format(formatter); // 输出如"2025-05-21 14:30:00"
+    }
+    public static <T> List<T> getDifference(List<T> list1, List<T> list2) {
+        // 将list2转换成Set，优化contains操作的性能
+        Set<T> set2 = new HashSet<>(list2);
+
+        // 从list1中筛选出不在set2中的元素
+        return list1.stream()
+                .filter(item -> !set2.contains(item)) // 直接检查Set，性能更优
+                .collect(Collectors.toList()); // 收集成新List
+    }
+    public static void getMonth(Integer month, TbStatisticsItem item,TbTask tbTask) {
+        switch (month) {
+            case 1:
+                item.setAddTasks(tbTask.getOneAddTasks());
+                item.setViewsTasks(tbTask.getOneViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getOneQuestionnaireTasks());
+                break;
+            case 2:
+                item.setAddTasks(tbTask.getTwoAddTasks());
+                item.setViewsTasks(tbTask.getTwoViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getTwoQuestionnaireTasks());
+                break;
+            case 3:
+                item.setAddTasks(tbTask.getThreeAddTasks());
+                item.setViewsTasks(tbTask.getThreeViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getThreeQuestionnaireTasks());
+                break;
+            case 4:
+                item.setAddTasks(tbTask.getFourAddTasks());
+                item.setViewsTasks(tbTask.getFourViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getFourQuestionnaireTasks());
+                break;
+            case 5:
+                item.setAddTasks(tbTask.getFiveAddTasks());
+                item.setViewsTasks(tbTask.getFiveViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getFiveQuestionnaireTasks());
+                break;
+            case 6:
+                item.setAddTasks(tbTask.getSixAddTasks());
+                item.setViewsTasks(tbTask.getSixViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getSixQuestionnaireTasks());
+                break;
+            case 7:
+                item.setAddTasks(tbTask.getSevenAddTasks());
+                item.setViewsTasks(tbTask.getSevenViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getSevenQuestionnaireTasks());
+                break;
+            case 8:
+                item.setAddTasks(tbTask.getEightAddTasks());
+                item.setViewsTasks(tbTask.getEightViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getEightQuestionnaireTasks());
+                break;
+            case 9:
+                item.setAddTasks(tbTask.getNineAddTasks());
+                item.setViewsTasks(tbTask.getNineViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getNineQuestionnaireTasks());
+                break;
+            case 10:
+                item.setAddTasks(tbTask.getTenAddTasks());
+                item.setViewsTasks(tbTask.getTenViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getTenQuestionnaireTasks());
+                break;
+            case 11:
+                item.setAddTasks(tbTask.getElevenAddTasks());
+                item.setViewsTasks(tbTask.getElevenViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getElevenQuestionnaireTasks());
+                break;
+            case 12:
+                item.setAddTasks(tbTask.getTwelveAddTasks());
+                item.setViewsTasks(tbTask.getTwelveViewsTasks());
+                item.setQuestionnaireTasks(tbTask.getTwelveQuestionnaireTasks());
+                break;
+        }
     }
 }
