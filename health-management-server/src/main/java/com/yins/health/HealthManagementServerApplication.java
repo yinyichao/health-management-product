@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableScheduling
+@EnableScheduling  // ✅ 开启定时任务
 @ServletComponentScan
 @EnableTransactionManagement
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
