@@ -3,13 +3,20 @@ package com.yins.health.controller;
 
 
 import com.yins.health.entity.dto.TbStatisticsItemDto;
+import com.yins.health.entity.vo.TbStatisticsItemMonthVo;
+import com.yins.health.entity.vo.TbStatisticsItemYearVo;
 import com.yins.health.service.TbStatisticsItemService;
+import com.yins.health.util.ExcelUtil;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import com.yins.health.util.AppResult;
+
+import java.util.List;
 
 /**
  * (TbStatisticsItem)表控制层
@@ -33,7 +40,7 @@ public class TbStatisticsItemController {
      * @return 查询所有数据
      */
     @PostMapping("/selectMonthAll")
-    @Operation(summary = "查询所有数据【月度】")
+    @Operation(summary = "绩效情况统计")
     public AppResult selectMonthAll(@RequestBody TbStatisticsItemDto tbStatisticsItemDto) {
         return AppResult.successResult(tbStatisticsItemService.selectMonthAll(tbStatisticsItemDto));
     }
@@ -43,7 +50,7 @@ public class TbStatisticsItemController {
      * @return 查询所有数据
      */
     @PostMapping("/selectYearAll")
-    @Operation(summary = "查询所有数据【年】")
+    @Operation(summary = "日常完成任务统计【年】")
     public AppResult selectYearAll(@RequestBody TbStatisticsItemDto tbStatisticsItemDto) {
         return AppResult.successResult(tbStatisticsItemService.selectYearAll(tbStatisticsItemDto));
     }
@@ -67,6 +74,18 @@ public class TbStatisticsItemController {
         tbStatisticsItemService.day_week();
         return AppResult.successResult("");
     }
+    @ApiOperation(value = "日常完成任务结果导出", notes = "日常完成任务结果导出")
+    @PostMapping(value = "/exportYearAll")
+    public void exportYearAll(@RequestBody TbStatisticsItemDto tbStatisticsItemDto, HttpServletResponse response) throws Exception {
+        List<TbStatisticsItemYearVo> list = tbStatisticsItemService.selectYearAll(tbStatisticsItemDto);
+        ExcelUtil.exportTemplateDate(response, "日常完成任务结果", TbStatisticsItemYearVo.class, list, "日常完成任务结果");
+    }
 
+    @ApiOperation(value = "绩效情况结果导出", notes = "绩效情况结果导出")
+    @PostMapping(value = "/exportMonthAll")
+    public void exportMonthAll(@RequestBody TbStatisticsItemDto tbStatisticsItemDto, HttpServletResponse response) throws Exception {
+        List<TbStatisticsItemMonthVo> list = tbStatisticsItemService.selectMonthAll(tbStatisticsItemDto);
+        ExcelUtil.exportTemplateDate(response, "绩效情况结果", TbStatisticsItemMonthVo.class, list, "绩效情况结果");
+    }
 }
 

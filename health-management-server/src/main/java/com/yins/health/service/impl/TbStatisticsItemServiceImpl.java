@@ -8,6 +8,7 @@ import com.yins.health.entity.*;
 import com.yins.health.entity.dto.TbStatisticsItemDto;
 import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbStatisticsItemMonthVo;
+import com.yins.health.entity.vo.TbStatisticsItemMonthVoOld;
 import com.yins.health.entity.vo.TbStatisticsItemYearVo;
 import com.yins.health.service.*;
 import com.yins.health.util.CommonUtil;
@@ -317,12 +318,13 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
     public List<TbStatisticsItemMonthVo> selectMonthAll(TbStatisticsItemDto tbStatisticsItemDto) {
         List<TbStatisticsItem> tbStatisticsItems = baseMapper.selectList(new LambdaQueryWrapper<TbStatisticsItem>()
                 .eq(StringUtils.isNotEmpty(tbStatisticsItemDto.getUserName()), TbStatisticsItem::getUserName, tbStatisticsItemDto.getUserName())
-                .ge(StringUtils.isNotEmpty(tbStatisticsItemDto.getBeginTime()), TbStatisticsItem::getCycle, tbStatisticsItemDto.getBeginTime())
-                .le(StringUtils.isNotEmpty(tbStatisticsItemDto.getEndTime()), TbStatisticsItem::getCycle, tbStatisticsItemDto.getEndTime())
+                .eq(StringUtils.isNotEmpty(tbStatisticsItemDto.getYear()), TbStatisticsItem::getYear, tbStatisticsItemDto.getYear())
+                .eq(TbStatisticsItem::getType,2)
+                //.ge(StringUtils.isNotEmpty(tbStatisticsItemDto.getBeginTime()), TbStatisticsItem::getCycle, tbStatisticsItemDto.getBeginTime())
+                //.le(StringUtils.isNotEmpty(tbStatisticsItemDto.getEndTime()), TbStatisticsItem::getCycle, tbStatisticsItemDto.getEndTime())
                 .orderByAsc(TbStatisticsItem::getUserId,TbStatisticsItem::getCycle));
-        List<TbStatisticsItemMonthVo> list = CommonUtil.convert(tbStatisticsItems, TbStatisticsItemMonthVo.class);
-        TbStatisticsItemMonthVo.change(list);
-        return list;
+        List<TbStatisticsItemMonthVoOld> list = CommonUtil.convert(tbStatisticsItems, TbStatisticsItemMonthVoOld.class);
+        return TbStatisticsItemMonthVoOld.change(list,tbStatisticsItemDto.getType());
     }
 
     @Override

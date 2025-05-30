@@ -1,92 +1,159 @@
 package com.yins.health.entity.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 @Data
+@ExcelIgnoreUnannotated
 public class TbStatisticsItemMonthVo {
-    @ApiModelProperty(value = "用户名")
-    @ExcelProperty(value = "userName")
+    @ApiModelProperty(value = "用户/部门")
+    @ExcelProperty(value = "用户/部门")
     private String userName;
 
-    @ApiModelProperty(value = "2025年1月")
-    @ExcelProperty(value = "cycle")
-    private String cycle;
+    @ApiModelProperty(value = "1月任务数")
+    @ExcelProperty(value = "1月任务数")
+    private Integer oneTasks = 0;
 
-    @ApiModelProperty(value = "面见任务数")
-    @ExcelProperty(value = "viewsTasks")
-    private Integer viewsTasks;
+    @ApiModelProperty(value = "1月完成数")
+    @ExcelProperty(value = "1月完成数")
+    private Integer oneWorks = 0;
 
-    @ApiModelProperty(value = "增员任务数")
-    @ExcelProperty(value = "addTasks")
-    private Integer addTasks;
+    @ApiModelProperty(value = "1月完成率")
+    @ExcelProperty(value = "1月完成率")
+    private String oneRate = "-";
 
-    @ApiModelProperty(value = "问卷任务数")
-    @ExcelProperty(value = "questionnaireTasks")
-    private Integer questionnaireTasks;
+    @ApiModelProperty(value = "2月任务数")
+    @ExcelProperty(value = "2月任务数")
+    private Integer twoTasks = 0;
 
-    @ApiModelProperty(value = "面见完成数")
-    @ExcelProperty(value = "viewsWorks")
-    private Integer viewsWorks;
+    @ApiModelProperty(value = "2月完成数")
+    @ExcelProperty(value = "2月完成数")
+    private Integer twoWorks = 0;
 
-    @ApiModelProperty(value = "增员完成数")
-    @ExcelProperty(value = "addWorks")
-    private Integer addWorks;
+    @ApiModelProperty(value = "2月完成率")
+    @ExcelProperty(value = "2月完成率")
+    private String twoRate = "-";
 
-    @ApiModelProperty(value = "问卷完成数")
-    @ExcelProperty(value = "questionnaireWorks")
-    private Integer questionnaireWorks;
+    @ApiModelProperty(value = "3月任务数")
+    @ExcelProperty(value = "3月任务数")
+    private Integer threeTasks = 0;
 
-    @ApiModelProperty(value = "面见完成率")
-    @ExcelProperty(value = "viewsWorksRate")
-    private String viewsWorksRate;
+    @ApiModelProperty(value = "3月完成数")
+    @ExcelProperty(value = "3月完成数")
+    private Integer threeWorks = 0;
 
-    @ApiModelProperty(value = "增员完成率")
-    @ExcelProperty(value = "addWorksRate")
-    private String addWorksRate;
+    @ApiModelProperty(value = "3月完成率")
+    @ExcelProperty(value = "3月完成率")
+    private String threeRate = "-";
 
-    @ApiModelProperty(value = "问卷完成率")
-    @ExcelProperty(value = "questionnaireWorksRate")
-    private String questionnaireWorksRate;
+    @ApiModelProperty(value = "4月任务数")
+    @ExcelProperty(value = "4月任务数")
+    private Integer fourTasks = 0;
 
-    public void setViewsWorksRate() {
-        if(this.viewsTasks == 0 || this.viewsWorks == 0){
-            this.viewsWorksRate = "-";
-        }else{
-            double percentage = ((double) viewsWorks / viewsTasks) * 100;
-            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
-            this.viewsWorksRate = df.format(percentage) + "%";
-        }
-    }
+    @ApiModelProperty(value = "4月完成数")
+    @ExcelProperty(value = "4月完成数")
+    private Integer fourWorks = 0;
 
-    public void setAddWorksRate() {
-        if(this.addTasks == 0 || this.addWorks == 0){
-            this.addWorksRate = "-";
-        }else{
-            double percentage = ((double) addWorks / addTasks) * 100;
-            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
-            this.addWorksRate = df.format(percentage) + "%";
-        }
-    }
+    @ApiModelProperty(value = "4月完成率")
+    @ExcelProperty(value = "4月完成率")
+    private String fourRate = "-";
 
-    public void setQuestionnaireWorksRate() {
-        if(this.questionnaireTasks == 0 || this.questionnaireWorks == 0){
-            this.questionnaireWorksRate = "-";
-        }else{
-            double percentage = ((double) questionnaireWorks / questionnaireTasks) * 100;
-            DecimalFormat df = new DecimalFormat("0.00"); // 保留两位小数
-            this.questionnaireWorksRate = df.format(percentage) + "%";
-        }
-    }
-    public static void change(List<TbStatisticsItemMonthVo> list) {
-        for (TbStatisticsItemMonthVo item : list) {
-            item.setViewsWorksRate();
-            item.setAddWorksRate();
-            item.setQuestionnaireWorksRate();
-        }
-    }
+    @ApiModelProperty(value = "5月任务数")
+    @ExcelProperty(value = "5月任务数")
+    private Integer fiveTasks = 0;
+
+    @ApiModelProperty(value = "5月完成数")
+    @ExcelProperty(value = "5月完成数")
+    private Integer fiveWorks = 0;
+
+    @ApiModelProperty(value = "5月完成率")
+    @ExcelProperty(value = "5月完成率")
+    private String fiveRate = "-";
+
+    @ApiModelProperty(value = "6月任务数")
+    @ExcelProperty(value = "6月任务数")
+    private Integer sixTasks = 0;
+
+    @ApiModelProperty(value = "6月完成数")
+    @ExcelProperty(value = "6月完成数")
+    private Integer sixWorks = 0;
+
+    @ApiModelProperty(value = "6月完成率")
+    @ExcelProperty(value = "6月完成率")
+    private String sixRate = "-";
+
+    @ApiModelProperty(value = "7月任务数")
+    @ExcelProperty(value = "7月任务数")
+    private Integer sevenTasks = 0;
+
+    @ApiModelProperty(value = "7月完成数")
+    @ExcelProperty(value = "7月完成数")
+    private Integer sevenWorks = 0;
+
+    @ApiModelProperty(value = "7月完成率")
+    @ExcelProperty(value = "7月完成率")
+    private String sevenRate = "-";
+
+    @ApiModelProperty(value = "8月任务数")
+    @ExcelProperty(value = "8月任务数")
+    private Integer eightTasks = 0;
+
+    @ApiModelProperty(value = "8月完成数")
+    @ExcelProperty(value = "8月完成数")
+    private Integer eightWorks = 0;
+
+    @ApiModelProperty(value = "8月完成率")
+    @ExcelProperty(value = "8月完成率")
+    private String eightRate = "-";
+
+    @ApiModelProperty(value = "9月任务数")
+    @ExcelProperty(value = "9月任务数")
+    private Integer nineTasks = 0;
+
+    @ApiModelProperty(value = "9月完成数")
+    @ExcelProperty(value = "9月完成数")
+    private Integer nineWorks = 0;
+
+    @ApiModelProperty(value = "9月完成率")
+    @ExcelProperty(value = "9月完成率")
+    private String nineRate = "-";
+
+    @ApiModelProperty(value = "10月任务数")
+    @ExcelProperty(value = "10月任务数")
+    private Integer tenTasks = 0;
+
+    @ApiModelProperty(value = "10月完成数")
+    @ExcelProperty(value = "10月完成数")
+    private Integer tenWorks = 0;
+
+    @ApiModelProperty(value = "10月完成率")
+    @ExcelProperty(value = "10月完成率")
+    private String tenRate = "-";
+
+    @ApiModelProperty(value = "11月任务数")
+    @ExcelProperty(value = "11月任务数")
+    private Integer elevenTasks = 0;
+
+    @ApiModelProperty(value = "11月完成数")
+    @ExcelProperty(value = "11月完成数")
+    private Integer elevenWorks = 0;
+
+    @ApiModelProperty(value = "11月完成率")
+    @ExcelProperty(value = "11月完成率")
+    private String elevenRate = "-";
+
+    @ApiModelProperty(value = "12月任务数")
+    @ExcelProperty(value = "12月任务数")
+    private Integer twelveTasks = 0;
+
+    @ApiModelProperty(value = "12月完成数")
+    @ExcelProperty(value = "12月完成数")
+    private Integer twelveWorks = 0;
+
+    @ApiModelProperty(value = "12月完成率")
+    @ExcelProperty(value = "12月完成率")
+    private String twelveRate = "-";
+
 }
