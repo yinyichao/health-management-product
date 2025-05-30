@@ -98,5 +98,9 @@ public class TbRule extends Model<TbRule> {
 
     @ExcelProperty(value = "content")
     private String content;
+
+    public void change(){
+        content = hours == null ? cycle + "提交超过" +num+ "次时标记为"+ruleType : "每"+hours + "小时提交超过" +num+ "次时标记为"+ruleType;
+    }
 }
 

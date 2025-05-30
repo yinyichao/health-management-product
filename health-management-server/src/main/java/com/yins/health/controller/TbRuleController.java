@@ -64,6 +64,7 @@ public class TbRuleController {
     public AppResult insert(@RequestBody TbRule tbRule) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbRule.setCreatedUser(String.valueOf(userid));
+        tbRule.change();
         return AppResult.successResult(this.tbRuleService.save(tbRule));
     }
 
@@ -78,6 +79,7 @@ public class TbRuleController {
     public AppResult update(@RequestBody TbRule tbRule) {
         Integer userid = LoginInterceptor.threadLocal.get().getId();
         tbRule.setUpdatedUser(String.valueOf(userid));
+        tbRule.change();
         return AppResult.successResult(this.tbRuleService.updateById(tbRule));
     }
 

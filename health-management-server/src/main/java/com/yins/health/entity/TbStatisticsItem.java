@@ -12,7 +12,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @NoArgsConstructor
-@ApiModel("")
+@ApiModel("绩效详情表")
 @SuppressWarnings("serial")
 @TableName("tb_statistics_item")
 /**

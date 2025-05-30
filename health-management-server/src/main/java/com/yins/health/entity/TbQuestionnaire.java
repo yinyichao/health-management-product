@@ -73,7 +73,7 @@ public class TbQuestionnaire extends Model<TbQuestionnaire> {
 
     @ExcelProperty(value = "del")
     private Integer del;
-//状态（草稿、发布）
+    //状态（草稿、发布）
      @ApiModelProperty(value = "状态（草稿、发布）")
 
     @ExcelProperty(value = "state")
