@@ -17,7 +17,7 @@ public class UserOnlineLog implements Serializable {
     private Integer id;
 
     @Schema(description = "账号ID")
-    private Integer accountId;
+    private String accountId;
 
     @Schema(description = "登录时间")
     private LocalDateTime loginTime;

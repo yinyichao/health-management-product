@@ -30,8 +30,8 @@ public class AccountRegisterDto {
     /**
      * 手机号
      */
-    @Schema(description = "手机号", required = true)
-    private String telephone;
+    @Schema(description = "0、没有管理权限，1、有管理权限", required = true)
+    private Integer isAdmin;
 
 
 }

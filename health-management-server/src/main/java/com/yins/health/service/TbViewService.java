@@ -20,6 +20,6 @@ public interface TbViewService extends IService<TbView> {
 
     void saveTbView(TbView tbView);
 
-    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime);
+    List<TbStatisticsItemVDto> findTbStatisticsItemVDto(String userId,String beginTime,String endTime);
 }
 

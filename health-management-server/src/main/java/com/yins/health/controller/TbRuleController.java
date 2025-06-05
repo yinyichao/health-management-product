@@ -62,8 +62,8 @@ public class TbRuleController {
     @PostMapping("/insert")
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbRule tbRule) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbRule.setCreatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setCreatedUser(userid);
         tbRule.change();
         return AppResult.successResult(this.tbRuleService.save(tbRule));
     }
@@ -77,8 +77,8 @@ public class TbRuleController {
     @PutMapping("/update")
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbRule tbRule) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbRule.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setUpdatedUser(userid);
         tbRule.change();
         return AppResult.successResult(this.tbRuleService.updateById(tbRule));
     }

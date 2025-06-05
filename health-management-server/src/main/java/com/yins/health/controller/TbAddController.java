@@ -73,8 +73,8 @@ public class TbAddController {
     @PutMapping("/update")
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbAdd tbAdd) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbAdd.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbAdd.setUpdatedUser(userid);
         return AppResult.successResult(this.tbAddService.updateById(tbAdd));
     }
 

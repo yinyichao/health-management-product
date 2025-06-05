@@ -59,7 +59,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 log.info("使用特殊API密钥访问，跳过验证");
                 // 设置预定义的用户信息到ThreadLocal
                 AccountDto accountDTO = AccountDto.builder()
-                        .id(Integer.valueOf(remoteServiceConfig.getSpecialId()) )
+                        .id(remoteServiceConfig.getSpecialId())
                         .username("boss")
                         .build();
                 threadLocal.set(accountDTO);
@@ -68,7 +68,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             // 5. 解析 Token 并设置用户信息
             JWT jwt = JWTUtil.parseToken(token);
-            Integer userId = Integer.parseInt(jwt.getPayload("accountId").toString());
+            String userId = jwt.getPayload("accountId").toString();
             // 3. 验证 Token 有效性
             //String rawRedisToken = stringRedisTemplate.opsForValue().get(RedisKeyEnum.LOGIN_TOKEN.getPrefix()+tokenKey);
             String tokenKey = redisKey.token_key_pre + userId;

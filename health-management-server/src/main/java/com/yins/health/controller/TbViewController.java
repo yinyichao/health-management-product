@@ -36,7 +36,7 @@ public class TbViewController {
      *
      * @return 所有数据
      */
-    @GetMapping("/selectAll")
+    @PostMapping("/selectAll")
     @Operation(summary = "分页查询所有数据")
     public AppResult selectAll(@RequestBody TbViewDto tbViewDto) {
         return AppResult.successResult(this.tbViewService.pageByTbAdd(tbViewDto));
@@ -76,8 +76,8 @@ public class TbViewController {
     @PutMapping("/update")
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbView tbView) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbView.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbView.setUpdatedUser(userid);
         return AppResult.successResult(this.tbViewService.updateById(tbView));
     }
 }

@@ -74,8 +74,8 @@ public class TbQuestionnaireItemController {
     @PutMapping("/update")
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbQuestionnaireItem tbQuestionnaireItem) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbQuestionnaireItem.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaireItem.setUpdatedUser(userid);
         return AppResult.successResult(this.tbQuestionnaireItemService.updateById(tbQuestionnaireItem));
     }
 

@@ -24,7 +24,7 @@ import java.util.Date;
 public class AccountDto implements Serializable {
 
     @Schema(description = "ID")
-    private Integer id;
+    private String id;
     //创建人
     @ApiModelProperty(value = "创建人")
     private String createdUser;
@@ -44,7 +44,7 @@ public class AccountDto implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
     //手机号
-    @ApiModelProperty(value = "手机号")
-    private String telephone;
+    @ApiModelProperty(value = "0、没有管理权限，1、有管理权限")
+    private Integer isAdmin;
 
 }

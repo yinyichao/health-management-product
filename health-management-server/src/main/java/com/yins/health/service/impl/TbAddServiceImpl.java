@@ -53,8 +53,8 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
 
     @Override
     public void saveTbAdd(TbAdd tbAdd) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbAdd.setCreatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbAdd.setCreatedUser(userid);
         List<TbRule> tbRuleList = tbRuleService.list(new LambdaQueryWrapper<TbRule>().eq(TbRule::getDel, 0)
                 .eq(TbRule::getState, 0).eq(TbRule::getType, "增员"));
         String beginTime = "";
@@ -88,7 +88,7 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
     }
 
     @Override
-    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime) {
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(String userId,String beginTime,String endTime) {
         return baseMapper.findTbStatisticsItemVDto(userId,beginTime,endTime);
     }
 

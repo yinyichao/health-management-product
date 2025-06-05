@@ -24,8 +24,8 @@ public class TbRuleServiceImpl extends ServiceImpl<TbRuleDao, TbRule> implements
     public Integer delete(Integer id) {
         TbRule tbRule = baseMapper.selectById(id);
         tbRule.setDel(1);
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbRule.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbRule.setUpdatedUser(userid);
         return baseMapper.updateById(tbRule);
     }
 

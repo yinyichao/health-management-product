@@ -36,7 +36,7 @@ public class TbStatistics extends Model<TbStatistics> {
      @ApiModelProperty(value = "用户ID")
 
     @ExcelProperty(value = "userId")
-    private Integer userId;
+    private String userId;
 //用户名
      @ApiModelProperty(value = "用户名")
 

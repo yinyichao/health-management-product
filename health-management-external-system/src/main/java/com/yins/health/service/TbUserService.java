@@ -20,11 +20,14 @@ public interface TbUserService extends IService<TbUser> {
 
     LoginVo login(String payLoad);
 
-    AccountDto queryDetail(Integer id);
+    AccountDto queryDetail(String id);
 
     void logout(HttpServletRequest request);
 
     void update(AccountRegisterDto req);
 
+    LoginVo authentication(String code);
+
+    void weixin() throws Exception;
 }
 

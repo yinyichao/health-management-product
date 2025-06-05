@@ -62,8 +62,8 @@ public class TbQuestionnaireController {
     @PostMapping("/insert")
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbQuestionnaire tbQuestionnaire) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbQuestionnaire.setCreatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setCreatedUser(userid);
         return AppResult.successResult(this.tbQuestionnaireService.save(tbQuestionnaire));
     }
 
@@ -76,8 +76,8 @@ public class TbQuestionnaireController {
     @PutMapping("/update")
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbQuestionnaire tbQuestionnaire) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbQuestionnaire.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setUpdatedUser(userid);
         return AppResult.successResult(this.tbQuestionnaireService.updateById(tbQuestionnaire));
     }
 

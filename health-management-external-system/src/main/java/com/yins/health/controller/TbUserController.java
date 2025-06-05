@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.yins.health.util.AppResult;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户表;(TbUser)表控制层
@@ -76,6 +75,18 @@ public class TbUserController {
     public AppResult update(@RequestBody AccountRegisterDto req) {
         tbUserService.update(req);
         return AppResult.emptyResult();
+    }
+
+    @GetMapping("authentication")
+    @Operation(summary = "企微鉴权", description = "企微鉴权-获取当前登录用户详情接口")
+    public AppResult authentication(String code){
+        return AppResult.successResult(tbUserService.authentication(code));
+    }
+    @GetMapping("weixin")
+    @Operation(summary = "企微同步部门和用户数据", description = "企微同步部门和用户数据接口")
+    public AppResult weixin() throws Exception {
+        tbUserService.weixin();
+        return AppResult.successResult("");
     }
 
 }

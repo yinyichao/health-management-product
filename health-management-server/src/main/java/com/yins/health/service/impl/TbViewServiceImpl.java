@@ -51,8 +51,8 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
 
     @Override
     public void saveTbView(TbView tbView) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbView.setCreatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbView.setCreatedUser(userid);
         List<TbRule> tbRuleList = tbRuleService.list(new LambdaQueryWrapper<TbRule>().eq(TbRule::getDel, 0)
                 .eq(TbRule::getState, 0).eq(TbRule::getType, "面见"));
         String beginTime = "";
@@ -86,7 +86,7 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
     }
 
     @Override
-    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(Integer userId,String beginTime,String endTime) {
+    public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(String userId,String beginTime,String endTime) {
         return baseMapper.findTbStatisticsItemVDto(userId,beginTime,endTime);
     }
 }

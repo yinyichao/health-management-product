@@ -45,9 +45,9 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
 
     @Override
     public void removeTbTask(Integer id) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        String userid = LoginInterceptor.threadLocal.get().getId();
         TbTask tbTask = baseMapper.selectById(id);
-        tbTask.setUpdatedUser(String.valueOf(userid));
+        tbTask.setUpdatedUser(userid);
         tbTask.setId(id);
         tbTask.setDel(1);
         baseMapper.updateById(tbTask);
@@ -58,8 +58,8 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
 
     @Override
     public void updateTbTask(TbTaskVo tbTaskVo) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbTaskVo.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbTaskVo.setUpdatedUser(userid);
         baseMapper.updateById(tbTaskVo);
         List<TbTaskUser> taskUserList = tbTaskUserService.list(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId, tbTaskVo.getId()));
         tbStatisticsService.updateTbStatistics(tbTaskVo,taskUserList);
@@ -76,8 +76,8 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
 
     @Override
     public void saveTbTask(TbTaskVo tbTaskVo) {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbTaskVo.setCreatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbTaskVo.setCreatedUser(userid);
         baseMapper.insert(tbTaskVo);
         List<TbTaskUser> list = new ArrayList<TbTaskUser>();
         tbTaskVo.getUserIds().forEach(userId -> {
@@ -98,7 +98,7 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
         }
         TbTaskVo tbTaskVo = CommonUtil.convert(tbTask, TbTaskVo.class);
         List<TbTaskUser> taskUserList = tbTaskUserService.list(new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getTaskId, id));
-        List<Integer> userIdList = taskUserList.stream()
+        List<String> userIdList = taskUserList.stream()
                 .map(TbTaskUser::getUserId)
                 .distinct()
                 .collect(Collectors.toList());
@@ -118,7 +118,7 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
 
     @Override
     public List<TbMobileVo> seleteOne() {
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
+        String userid = LoginInterceptor.threadLocal.get().getId();
         TbTaskUser taskUser = tbTaskUserService.getOne(
                 new LambdaQueryWrapper<TbTaskUser>().eq(TbTaskUser::getUserId, userid)
         );

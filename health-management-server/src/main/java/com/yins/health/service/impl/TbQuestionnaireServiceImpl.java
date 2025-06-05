@@ -24,8 +24,8 @@ public class TbQuestionnaireServiceImpl extends ServiceImpl<TbQuestionnaireDao, 
     public Integer delete(Integer id) {
         TbQuestionnaire tbQuestionnaire = baseMapper.selectById(id);
         tbQuestionnaire.setDel(1);
-        Integer userid = LoginInterceptor.threadLocal.get().getId();
-        tbQuestionnaire.setUpdatedUser(String.valueOf(userid));
+        String userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaire.setUpdatedUser(userid);
         return baseMapper.updateById(tbQuestionnaire);
     }
 

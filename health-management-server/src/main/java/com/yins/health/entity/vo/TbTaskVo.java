@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class TbTaskVo extends TbTask {
     @ApiModelProperty(value = "用户ID集合")
-    private List<Integer> userIds;
+    private List<String> userIds;
 }

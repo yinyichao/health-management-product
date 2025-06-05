@@ -19,7 +19,7 @@ spring:
     resources:
       static-locations: classpath:/static/,classpath:/templates/
   profiles:
-    active: dev
+    active: prod
   servlet:
     multipart:
       max-file-size: 10MB

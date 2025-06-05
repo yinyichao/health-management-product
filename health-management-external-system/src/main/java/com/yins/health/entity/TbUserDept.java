@@ -12,31 +12,30 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @NoArgsConstructor
-@ApiModel("任务用户关联表;实体类")
+@ApiModel("用户-部门关联表实体类")
 @SuppressWarnings("serial")
-@TableName("tb_task_user")
+@TableName("tb_user_dept")
 /**
- * 任务用户关联表;(TbTaskUser)表实体类
+ * 用户-部门关联表(TbUserDept)表实体类
  *
  * @author yinyichao
- * @since 2025-05-28 15:14:03
+ * @since 2025-06-05 18:39:50
  */
-public class TbTaskUser extends Model<TbTaskUser> {
-//ID
-     @ApiModelProperty(value = "ID")
-     @TableId(type = IdType.AUTO)
+public class TbUserDept extends Model<TbUserDept> {
+
     @ExcelProperty(value = "id")
+    @TableId(type = IdType.AUTO)
     private Integer id;
 //用户表ID
      @ApiModelProperty(value = "用户表ID")
 
     @ExcelProperty(value = "userId")
     private String userId;
-//任务表ID
-     @ApiModelProperty(value = "任务表ID")
+//部门表ID
+     @ApiModelProperty(value = "部门表ID")
 
-    @ExcelProperty(value = "taskId")
-    private Integer taskId;
+    @ExcelProperty(value = "deptId")
+    private Integer deptId;
 
 }
 

@@ -24,8 +24,8 @@ import com.alibaba.excel.annotation.ExcelProperty;
  */
 public class TbUser extends Model<TbUser> {
     @Schema(description = "ID")
-    @TableId(type = IdType.AUTO)
-    private Integer id;
+    @TableId(type = IdType.INPUT)
+    private String id;
     //创建人
      @ApiModelProperty(value = "创建人")
 
@@ -57,9 +57,8 @@ public class TbUser extends Model<TbUser> {
     @ExcelProperty(value = "password")
     private String password;
     //手机号
-    @ApiModelProperty(value = "手机号")
 
-    @ExcelProperty(value = "telephone")
-    private String telephone;
+    @ApiModelProperty(value = "0、没有管理权限，1、有管理权限")
+    private Integer isAdmin;
 }
 
