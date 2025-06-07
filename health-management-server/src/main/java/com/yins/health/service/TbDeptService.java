@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface TbDeptService extends IService<TbDept> {
 
-    List<DeptWithUsersDTO> getRootDeptWithUsers();
+    List<DeptWithUsersDTO> getRootDeptWithUsers(Integer taskId);
 
     List<TbUserListDto> userByName(String name);
 

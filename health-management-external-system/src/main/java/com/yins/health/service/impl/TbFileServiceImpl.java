@@ -41,8 +41,10 @@ public class TbFileServiceImpl extends ServiceImpl<TbFileDao, TbFile> implements
         TbFile tbFile = new TbFile();
         tbFile.setObjectKey(downloadUrl);
         tbFile.setFileName(file.getOriginalFilename());
-        String userid = LoginInterceptor.threadLocal.get().getId();
-        tbFile.setCreatedUser(userid);
+        if(LoginInterceptor.threadLocal.get() != null) {
+            String userid = LoginInterceptor.threadLocal.get().getId();
+            tbFile.setCreatedUser(userid);
+        }
         baseMapper.insert(tbFile);
         return downloadUrl;
     }

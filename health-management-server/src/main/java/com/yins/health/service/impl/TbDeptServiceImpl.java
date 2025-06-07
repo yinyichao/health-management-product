@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +35,7 @@ public class TbDeptServiceImpl extends ServiceImpl<TbDeptDao, TbDept> implements
     private TbUserDeptDao tbUserDeptDao;
 
     // 获取部门及其下的所有用户信息
-    public DeptWithUsersDTO getDeptWithUsers(int deptId) {
+    public DeptWithUsersDTO getDeptWithUsers(int deptId,Integer taskId) {
         TbDept dept = this.getById(deptId);
         // 构造DTO对象
         DeptWithUsersDTO deptWithUsersDTO = new DeptWithUsersDTO();
@@ -44,14 +43,19 @@ public class TbDeptServiceImpl extends ServiceImpl<TbDeptDao, TbDept> implements
 
         // 获取部门下的所有用户
         // 1. 查询所有与该部门ID相关联的用户ID
-        List<TbUserDto> users = tbUserDao.selectTbUserDto(deptId);
+        List<TbUserDto> users;
+        if(taskId!=null) {
+            users = tbUserDao.selectTbUsersDto(deptId,taskId);
+        }else{
+            users = tbUserDao.selectTbUserDto(deptId);
+        }
         deptWithUsersDTO.setUsers(users);
 
 
         // 获取子部门并递归调用
         List<TbDept> subDepartments = this.list(new QueryWrapper<TbDept>().eq("parentid", deptId));
         List<DeptWithUsersDTO> subDeptDTOs = subDepartments.stream()
-                .map(subDept -> getDeptWithUsers(subDept.getId())) // 递归获取子部门
+                .map(subDept -> getDeptWithUsers(subDept.getId(),taskId)) // 递归获取子部门
                 .collect(Collectors.toList());
 
         deptWithUsersDTO.setSubDepartments(subDeptDTOs);
@@ -60,13 +64,13 @@ public class TbDeptServiceImpl extends ServiceImpl<TbDeptDao, TbDept> implements
     }
     // 获取根部门树
     @Override
-    public List<DeptWithUsersDTO> getRootDeptWithUsers() {
+    public List<DeptWithUsersDTO> getRootDeptWithUsers(Integer taskId) {
         // 获取根部门，假设根部门的parentid为null或0
         List<TbDept> rootDepts = this.list(new QueryWrapper<TbDept>().eq("parentid", 1));
 
         // 递归获取所有部门及其用户信息
         return rootDepts.stream()
-                .map(dept -> getDeptWithUsers(dept.getId()))
+                .map(dept -> getDeptWithUsers(dept.getId(),taskId))
                 .collect(Collectors.toList());
     }
 
