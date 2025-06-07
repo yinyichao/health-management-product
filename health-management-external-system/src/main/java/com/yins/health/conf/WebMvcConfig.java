@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
             .addPathPatterns("/api/**")
             .excludePathPatterns("/api/account/v1/login", "/api/account/v1/register","/api/image/v1/*",
-                    "/api/inner-aiApp/**","/api/guestLogin/v1",
+                    "/api/account/v1/authentication","/api/phone/v1/**","/api/inner-aiApp/**","/api/guestLogin/v1",
                     "/api/test/v1/getMinioConfig",
                     "/api/chatSearchKey/v1/list",
                     "/api/space/*",

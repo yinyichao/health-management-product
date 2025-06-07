@@ -37,7 +37,8 @@ public class MinioConfig {
     @Value("health-bucket-name")
     private String healthBucketName;
 
-
+    @Value("pre")
+    private String pre;
 
     //预签名的URL过期时间 ms 毫秒
     private Long preSignUrlExpireTime = 60 * 60 * 1000L;

@@ -6,28 +6,31 @@ spring:
         master:
           type: com.zaxxer.hikari.HikariDataSource
           driverClassName: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://175.178.234.59:3344/health?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-          username: root
-          password: mysql_1234
+          url: jdbc:mysql://112.91.140.229:34307/health?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          username: actuser
+          password: actuser0605
       druid:
         initial-size: 20
         max-active: 60
         min-idle: 20
         max-wait: 30000
   redis:
-    host: 175.178.234.59
-    port: 6637
+    #host: 175.178.234.59
+    #port: 6637
+    host: redis
+    port: 6379
     password: aisn123456
     database: 2
 # minio
 minio:
-  endpoint: http://175.178.234.59:8007
-  access-key: minio_root
-  access-secret: minio_1234
+  endpoint: http://172.16.0.8:10000
+  access-key: actuser
+  access-secret: actuser0605
   bucket-name: qf-pan
   bucket-name-public: qf-public
   avatar-bucket-name: avatar
-  health-bucket-name: health-pan
+  health-bucket-name: actfiles
+  pre: http://106.53.58.221:10001/api/v1/buckets/actfiles/objects/download?preview=true&prefix=
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -55,3 +58,10 @@ weixin:
   userinfoUrl: https://qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo
   deptUrl: https://qyapi.weixin.qq.com/cgi-bin/department/list
   userUrl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
+
+duanxin:
+  url: https://oa.dyjk.cn/prod-api/interface/tjapi/gettoken
+  user: actuser
+  password: actuser0605
+  sendUrl: https://oa.dyjk.cn/prod-api/message/messageTemplate/sendSMSMessageCode
+  verifyUrl: https://oa.dyjk.cn/prod-api/message/messageTemplate/sendSMSMessageValiedate

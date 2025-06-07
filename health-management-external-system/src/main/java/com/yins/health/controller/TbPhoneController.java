@@ -29,7 +29,7 @@ public class TbPhoneController {
         return AppResult.successResult(result);
     }
     @GetMapping("/verifySMS")
-    @Operation(summary = "发短信接口")
+    @Operation(summary = "校验短信接口")
     public AppResult verifySMS(String phone,String code){
         //模拟调用短信接口
         String result = tbPhoneService.verifySMS(phone,code);

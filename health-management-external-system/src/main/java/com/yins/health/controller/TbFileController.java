@@ -31,5 +31,10 @@ public class TbFileController {
     public AppResult upload(@RequestBody MultipartFile file){
         return AppResult.successResult(tbFileService.upload(file));
     }
+/*    @GetMapping("/getDownloadUrl")
+    @Operation(summary = "获取文件预览（临时）")
+    public AppResult getDownloadUrl(String objectKey){
+        return AppResult.successResult(tbFileService.getDownloadUrl(objectKey));
+    }*/
 }
 

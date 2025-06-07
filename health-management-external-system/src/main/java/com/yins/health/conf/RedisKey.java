@@ -12,6 +12,7 @@ public  class RedisKey {
 
     public final String  token_key_pre = "token:key:pre:";
     public final String  phone_key_pre = "phone:key:pre";
+    public final String  phone_token_key_pre = "phone:token:key:pre";
     public final String  access_token = "access_token:";
 }
 

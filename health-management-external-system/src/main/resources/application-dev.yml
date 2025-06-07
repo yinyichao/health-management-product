@@ -28,6 +28,7 @@ minio:
   bucket-name-public: qf-public
   avatar-bucket-name: avatar
   health-bucket-name: health-pan
+  pre: 1
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -47,3 +48,18 @@ mybatis-plus:
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+weixin:
+  corpid: wx5d90ab232b0113b3
+  corpsecret: NukEJRDdUcd4IMTsZzHrHGnzt9oz_GI3LXCY8o1in1I
+  url: https://qyapi.weixin.qq.com/cgi-bin/gettoken
+  userinfoUrl: https://qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo
+  deptUrl: https://qyapi.weixin.qq.com/cgi-bin/department/list
+  userUrl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
+
+duanxin:
+  url: https://oa.dyjk.cn/prod-api/interface/tjapi/gettoken
+  user: actuser
+  password: actuser0605
+  sendUrl: https://oa.dyjk.cn/prod-api/message/sendSMSMessageCode
+  verifyUrl: https://oa.dyjk.cn/prod-api/messageTemplate/sendSMSMessageValiedate
