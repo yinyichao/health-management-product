@@ -8,6 +8,7 @@ import com.yins.health.dao.TbViewDao;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.TbView;
+import com.yins.health.entity.dto.RuleDto;
 import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.dto.TbViewDto;
 import com.yins.health.interceptor.LoginInterceptor;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,14 +52,27 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
     }
 
     @Override
+    public List<TbView> listByTbAdd(TbViewDto tbViewDto) {
+        return baseMapper.selectList(new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0)
+                .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel())
+                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitor()), TbView::getVisitor, tbViewDto.getVisitor())
+                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
+                .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
+                .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginTime())
+                .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndTime()));
+    }
+
+    @Override
     public void saveTbView(TbView tbView) {
         String userid = LoginInterceptor.threadLocal.get().getId();
+        String username = LoginInterceptor.threadLocal.get().getUsername();
         tbView.setCreatedUser(userid);
+        tbView.setUsername(username);
         List<TbRule> tbRuleList = tbRuleService.list(new LambdaQueryWrapper<TbRule>().eq(TbRule::getDel, 0)
                 .eq(TbRule::getState, 0).eq(TbRule::getType, "面见"));
         String beginTime = "";
-        String ruleType = "";
         List<TbRuleModel> list = new ArrayList<>();
+        RuleDto ruleDto = new RuleDto();
         for (TbRule tbRule : tbRuleList) {
             switch (tbRule.getCycle()) {
                 case "每月":
@@ -75,9 +90,10 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
             }
             Integer counts = baseMapper.selectCount(new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0).eq(TbView::getState, "有效")
                     .ge(TbView::getUpdatedTime, beginTime));
-            ruleType = TbRuleModelUtil.getString(tbRule, counts, ruleType, list);
+            TbRuleModelUtil.getString(tbRule, counts, ruleDto, list);
         }
-        tbView.setLabel(ruleType);
+        tbView.setLabel(ruleDto.getLabel());
+        tbView.setLabelContent(ruleDto.getContent());
         baseMapper.insert(tbView);
         for(TbRuleModel tbRuleModel : list){
             tbRuleModel.setModelId(tbView.getId());

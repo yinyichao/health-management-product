@@ -288,7 +288,11 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
                 tbUser.setIsAdmin(0);
                 tbUserDept.setUserId(tbUser.getId());
                 tbUserDept.setDeptId(tbDept.getId());
-                baseMapper.insert(tbUser);
+                try{
+                    baseMapper.insert(tbUser);
+                }catch(Exception e){
+
+                }
                 tbUserDeptDao.insert(tbUserDept);
             }
         }

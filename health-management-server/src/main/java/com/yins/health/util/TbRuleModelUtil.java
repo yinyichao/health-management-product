@@ -4,6 +4,7 @@ import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
 import com.yins.health.entity.TbStatisticsItem;
 import com.yins.health.entity.TbTask;
+import com.yins.health.entity.dto.RuleDto;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,26 +12,26 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TbRuleModelUtil {
-    public static String getString(TbRule tbRule, Integer counts, String ruleType, List<TbRuleModel> list) {
+    public static void getString(TbRule tbRule, Integer counts, RuleDto dto, List<TbRuleModel> list) {
         if(counts >= tbRule.getNum()){
-            if("".equals(ruleType)){
-                ruleType = tbRule.getRuleType();
+            if(StringUtils.isEmpty(dto.getLabel())){
+                dto.setLabel(tbRule.getRuleType());
+                dto.setContent(tbRule.getContent());
             }else if("高风险".equals(tbRule.getRuleType())){
-                ruleType = tbRule.getRuleType();
-            }else if("中风险".equals(tbRule.getRuleType()) && !"高风险".equals(ruleType)){
-                ruleType = tbRule.getRuleType();
+                dto.setLabel(tbRule.getRuleType());
+                dto.setContent(tbRule.getContent());
+            }else if("中风险".equals(tbRule.getRuleType()) && !"高风险".equals(dto.getLabel())){
+                dto.setLabel(tbRule.getRuleType());
+                dto.setContent(tbRule.getContent());
             }
             TbRuleModel tbRuleModel = new TbRuleModel();
             tbRuleModel.setRuleId(tbRule.getId());
             list.add(tbRuleModel);
         }
-        return ruleType;
     }
 
     public static String month() {

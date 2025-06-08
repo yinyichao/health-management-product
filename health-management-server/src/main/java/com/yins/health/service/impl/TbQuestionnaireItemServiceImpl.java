@@ -8,10 +8,10 @@ import com.yins.health.dao.TbQuestionnaireItemDao;
 import com.yins.health.entity.TbQuestionnaireItem;
 import com.yins.health.entity.TbRule;
 import com.yins.health.entity.TbRuleModel;
+import com.yins.health.entity.dto.RuleDto;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
 import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbQuestionnaireItemVo;
-import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireItemService;
 import com.yins.health.service.TbRuleModelService;
 import com.yins.health.service.TbRuleService;
@@ -43,12 +43,12 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
 
     @Override
     public void saveTbQuestionnaireItem(TbQuestionnaireItem tbQuestionnaireItem) {
-        String userid = LoginInterceptor.threadLocal.get().getId();
-        tbQuestionnaireItem.setCreatedUser(userid);
+        /*String userid = LoginInterceptor.threadLocal.get().getId();
+        tbQuestionnaireItem.setCreatedUser(userid);*/
         List<TbRule> tbRuleList = tbRuleService.list(new LambdaQueryWrapper<TbRule>().eq(TbRule::getDel, 0)
                 .eq(TbRule::getState, 0).eq(TbRule::getType, "采集"));
         String beginTime = "";
-        String ruleType = "";
+        RuleDto ruleDto = new RuleDto();
         List<TbRuleModel> list = new ArrayList<>();
         for (TbRule tbRule : tbRuleList) {
             switch (tbRule.getCycle()) {
@@ -67,9 +67,10 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
             }
             Integer counts = baseMapper.selectCount(new LambdaQueryWrapper<TbQuestionnaireItem>().eq(TbQuestionnaireItem::getDel, 0).eq(TbQuestionnaireItem::getState, "有效")
                     .ge(TbQuestionnaireItem::getUpdatedTime, beginTime));
-            ruleType = TbRuleModelUtil.getString(tbRule, counts, ruleType, list);
+            TbRuleModelUtil.getString(tbRule, counts, ruleDto, list);
         }
-        tbQuestionnaireItem.setLabel(ruleType);
+        tbQuestionnaireItem.setLabel(ruleDto.getLabel());
+        tbQuestionnaireItem.setLabelContent(ruleDto.getContent());
         baseMapper.insert(tbQuestionnaireItem);
         for(TbRuleModel tbRuleModel : list){
             tbRuleModel.setModelId(tbQuestionnaireItem.getId());
@@ -88,6 +89,11 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
     @Override
     public List<TbStatisticsItemVDto> findTbStatisticsItemVDto(String userId,String beginTime,String endTime) {
         return baseMapper.findTbStatisticsItemVDto(userId,beginTime,endTime);
+    }
+
+    @Override
+    public List<TbQuestionnaireItemVo> listByTbAdd(TbQuestionnaireItemDto tbQuestionnaireItemDto) {
+        return baseMapper.selectByList(tbQuestionnaireItemDto);
     }
 }
 

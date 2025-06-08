@@ -5,11 +5,16 @@ import com.yins.health.entity.TbAdd;
 import com.yins.health.entity.dto.TbAddDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbAddService;
+import com.yins.health.util.ExcelUtil;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
+import java.util.List;
+
 import com.yins.health.util.AppResult;
 
 /**
@@ -38,7 +43,12 @@ public class TbAddController {
     public AppResult selectAll(@RequestBody TbAddDto tbAddDto) {
         return AppResult.successResult(this.tbAddService.pageByTbAdd(tbAddDto));
     }
-
+    @ApiOperation(value = "增员结果导出", notes = "增员结果导出")
+    @PostMapping(value = "/exportView")
+    public void exportView(@RequestBody TbAddDto tbAddDto, HttpServletResponse response) throws Exception {
+        List<TbAdd> list = tbAddService.listByTbAdd(tbAddDto);
+        ExcelUtil.exportTemplateDate(response, "增员结果", TbAdd.class, list, "增员结果");
+    }
     /**
      * 通过主键查询单条数据
      *

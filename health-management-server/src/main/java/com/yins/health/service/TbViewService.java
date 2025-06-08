@@ -17,6 +17,7 @@ import java.util.List;
 public interface TbViewService extends IService<TbView> {
 
     IPage<TbView> pageByTbAdd(TbViewDto tbViewDto);
+    List<TbView> listByTbAdd(TbViewDto tbViewDto);
 
     void saveTbView(TbView tbView);
 

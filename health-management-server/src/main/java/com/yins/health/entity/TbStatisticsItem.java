@@ -82,5 +82,10 @@ public class TbStatisticsItem extends Model<TbStatisticsItem> {
     @ExcelProperty(value = "questionnaireWorks")
     private Integer questionnaireWorks;
 
+//    @ApiModelProperty(value = "0、不是，1、是")
+//    private Integer isDept;
+//
+//    @ApiModelProperty(value = "部门名称（不是部门时有值，是部门时userName为部门名称）")
+//    private String dept;
 }
 

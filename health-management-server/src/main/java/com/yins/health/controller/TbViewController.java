@@ -6,12 +6,16 @@ import com.yins.health.entity.TbView;
 import com.yins.health.entity.dto.TbViewDto;
 import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbViewService;
+import com.yins.health.util.ExcelUtil;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
+import java.util.List;
 
 import com.yins.health.util.AppResult;
 
@@ -41,7 +45,12 @@ public class TbViewController {
     public AppResult selectAll(@RequestBody TbViewDto tbViewDto) {
         return AppResult.successResult(this.tbViewService.pageByTbAdd(tbViewDto));
     }
-
+    @ApiOperation(value = "面见结果导出", notes = "面见结果导出")
+    @PostMapping(value = "/exportView")
+    public void exportView(@RequestBody TbViewDto tbViewDto, HttpServletResponse response) throws Exception {
+        List<TbView> list = tbViewService.listByTbAdd(tbViewDto);
+        ExcelUtil.exportTemplateDate(response, "面见结果", TbView.class, list, "面见结果");
+    }
     /**
      * 通过主键查询单条数据
      *
