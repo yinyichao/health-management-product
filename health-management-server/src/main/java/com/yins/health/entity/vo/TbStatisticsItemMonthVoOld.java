@@ -1,19 +1,20 @@
 package com.yins.health.entity.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.yins.health.util.StringUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.text.DecimalFormat;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class TbStatisticsItemMonthVoOld {
+    @ApiModelProperty(value = "部门ID")
+    private Integer deptId;
+
+    @ApiModelProperty(value = "部门名称")
+    private String deptName;
     @ApiModelProperty(value = "用户名")
     @ExcelProperty(value = "userName")
     private String userName;
@@ -89,15 +90,16 @@ public class TbStatisticsItemMonthVoOld {
     }
     public static List<TbStatisticsItemMonthVo> change(List<TbStatisticsItemMonthVoOld> list,Integer type) {
         TbStatisticsItemMonthVo vo;
-        Map<String,TbStatisticsItemMonthVo> map = new HashMap<String,TbStatisticsItemMonthVo>();
+        Map<String,TbStatisticsItemMonthVo> map = new LinkedHashMap<String,TbStatisticsItemMonthVo>();
         for (TbStatisticsItemMonthVoOld item : list) {
-            vo = map.getOrDefault(item.getUserName(), new TbStatisticsItemMonthVo());
+            map.putIfAbsent(item.getDeptName(), new TbStatisticsItemMonthVo().setUserName(item.getDeptName()));
+            vo = map.getOrDefault(item.getDeptName()+item.getUserName(), new TbStatisticsItemMonthVo());
             vo.setUserName(item.getUserName());
             item.setViewsWorksRate();
             item.setAddWorksRate();
             item.setQuestionnaireWorksRate();
             month(vo,item,type);
-            map.put(item.getUserName(), vo);
+            map.put(item.getDeptName()+item.getUserName(), vo);
         }
         return new ArrayList<>(map.values());
     }

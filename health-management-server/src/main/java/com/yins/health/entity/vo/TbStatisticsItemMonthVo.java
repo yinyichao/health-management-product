@@ -4,8 +4,10 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 public class TbStatisticsItemMonthVo {
     @ApiModelProperty(value = "用户/部门")

@@ -3,6 +3,7 @@ package com.yins.health.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yins.health.entity.TbStatisticsItem;
 import com.yins.health.entity.dto.TbStatisticsItemDto;
+import com.yins.health.entity.vo.TbStatisticsItemVo;
 import com.yins.health.entity.vo.TbStatisticsItemYearVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -43,5 +44,20 @@ public interface TbStatisticsItemDao extends BaseMapper<TbStatisticsItem> {
             "</script>"
     })
     List<TbStatisticsItemYearVo> selectYearAll(@Param("dto") TbStatisticsItemDto tbStatisticsItemDto);
+
+    @Select({
+            "<script>",
+            "select d.id as dept_id,d.name as dept_name,i.* from tb_statistics_item i left join tb_user_dept u on i.user_id = u.user_id left join tb_dept d on u.dept_id = d.id ",
+            "where i.type = 2",
+            "<if test='dto.year != null and dto.year != \"\"'>",
+            "  AND i.year = #{dto.year}",
+            "</if>",
+            "<if test='dto.userName != null and dto.userName != \"\"'>",
+            "  AND i.user_name = #{dto.userName} or d.name = #{dto.userName}",
+            "</if>",
+            "order by d.id",
+            "</script>"
+    })
+    List<TbStatisticsItemVo> selectMonthAll(@Param("dto") TbStatisticsItemDto tbStatisticsItemDto);
 }
 
