@@ -209,7 +209,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
         String redisToken = stringRedisTemplate.opsForValue().get(tokenKey);
         if (redisToken == null) {
             String url = weixinConfig.getUrl() + "?corpid=" + weixinConfig.getCorpid() + "&corpsecret=" + weixinConfig.getCorpsecret();
-            String res = null;
+            String res;
             try {
                 res = HttpUtils.sendGetString(url);
             } catch (Exception e) {
@@ -223,23 +223,21 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
                 stringRedisTemplate.opsForValue().set(tokenKey,redisToken,1000 * 7, TimeUnit.SECONDS);
             }
         }
+        System.out.println("-----------------------------"+redisToken);
         String url = weixinConfig.getUserinfoUrl() + "?access_token="+redisToken+"&code=" + code;
-        String res = null;
+        String res;
         try {
             res = HttpUtils.sendGetString(url);
         } catch (Exception e) {
             throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
         }
         JSONObject json = JSONUtil.parseObj(res);
-        String user_ticket = json.getStr("user_ticket");
-        if(redisToken == null) {
-            throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
-        }
-        TbUser tbUser = baseMapper.selectById(user_ticket);
+        System.out.println("-----------------------------"+json);
+        String userid = json.getStr("userid");
+        TbUser tbUser = baseMapper.selectById(userid);
         if(tbUser == null) {
             throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
         }
-
         AccountDto accountDTO = CommonUtil.convert(tbUser, AccountDto.class);
         assert accountDTO != null;
         recordLogin(accountDTO.getId(),null,null);
