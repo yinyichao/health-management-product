@@ -182,3 +182,94 @@
 10:35:32.940 [http-nio-8023-exec-3] INFO  com.alibaba.excel.util.StyleUtil - create new font:com.alibaba.excel.write.metadata.style.WriteFont@e747bd82,null
 10:35:33.311 [http-nio-8023-exec-3] INFO  c.a.e.w.m.holder.WriteWorkbookHolder - create new style:com.alibaba.excel.write.metadata.style.WriteCellStyle@c5cdd045,null
 10:35:33.311 [http-nio-8023-exec-3] INFO  com.alibaba.excel.util.StyleUtil - create new font:com.alibaba.excel.write.metadata.style.WriteFont@96caf36,null
+10:52:20.103 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+10:52:20.105 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+10:52:20.122 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+10:52:20.122 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+10:52:30.231 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+10:52:30.238 [main] INFO  c.y.h.HealthManagementServerApplication - Starting HealthManagementServerApplication using Java 1.8.0_202 on LAPTOP-2FSN5CQD with PID 880 (D:\workspace_test\health-management-product\health-management-server\target\classes started by yinyi in D:\workspace_test\health-management-product)
+10:52:30.238 [main] INFO  c.y.h.HealthManagementServerApplication - The following 1 profile is active: "dev"
+10:52:31.716 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+10:52:31.719 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+10:52:31.794 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57 ms. Found 0 Redis repository interfaces.
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbAddDao' and 'com.yins.health.dao.TbAddDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbDeptDao' and 'com.yins.health.dao.TbDeptDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbQuestionnaireDao' and 'com.yins.health.dao.TbQuestionnaireDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbQuestionnaireItemDao' and 'com.yins.health.dao.TbQuestionnaireItemDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbRuleDao' and 'com.yins.health.dao.TbRuleDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbRuleModelDao' and 'com.yins.health.dao.TbRuleModelDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbStatisticsDao' and 'com.yins.health.dao.TbStatisticsDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbStatisticsItemDao' and 'com.yins.health.dao.TbStatisticsItemDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbTaskDao' and 'com.yins.health.dao.TbTaskDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbTaskUserDao' and 'com.yins.health.dao.TbTaskUserDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbUserDao' and 'com.yins.health.dao.TbUserDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbUserDeptDao' and 'com.yins.health.dao.TbUserDeptDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbViewDao' and 'com.yins.health.dao.TbViewDao' mapperInterface. Bean already defined with the same name!
+10:52:31.948 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.yins.health.dao]' package. Please check your configuration.
+10:52:32.300 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:52:32.303 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$EnhancerBySpringCGLIB$$1bdb5f4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:52:32.316 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.DsHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:52:32.323 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDatasourceAnnotationAdvisor' of type [com.baomidou.dynamic.datasource.aop.DynamicDataSourceAnnotationAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:52:32.801 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8023 (http)
+10:52:32.816 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8023"]
+10:52:32.818 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+10:52:32.818 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.68]
+10:52:33.124 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+10:52:33.124 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2817 ms
+10:52:33.511 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+10:52:34.251 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+10:52:34.251 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - load a datasource named [master] success
+10:52:34.251 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [1] datasource,primary datasource named [master]
+10:52:39.986 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8023"]
+10:52:40.032 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8023 (http) with context path ''
+10:52:40.571 [main] INFO  c.y.h.HealthManagementServerApplication - Started HealthManagementServerApplication in 11.109 seconds (JVM running for 13.266)
+10:52:53.579 [http-nio-8023-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:52:53.579 [http-nio-8023-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+10:52:53.579 [http-nio-8023-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+10:52:56.417 [http-nio-8023-exec-2] INFO  c.y.h.interceptor.LoginInterceptor - Token 续期成功，新的过期时间 3 小时
+10:53:17.501 [http-nio-8023-exec-1] INFO  c.y.h.interceptor.LoginInterceptor - Token 续期成功，新的过期时间 3 小时
+10:59:47.666 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+10:59:47.666 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+10:59:47.683 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+10:59:47.683 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+10:59:56.925 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+10:59:56.934 [main] INFO  c.y.h.HealthManagementServerApplication - Starting HealthManagementServerApplication using Java 1.8.0_202 on LAPTOP-2FSN5CQD with PID 3380 (D:\workspace_test\health-management-product\health-management-server\target\classes started by yinyi in D:\workspace_test\health-management-product)
+10:59:56.935 [main] INFO  c.y.h.HealthManagementServerApplication - The following 1 profile is active: "dev"
+10:59:58.401 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+10:59:58.404 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+10:59:58.475 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 47 ms. Found 0 Redis repository interfaces.
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbAddDao' and 'com.yins.health.dao.TbAddDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbDeptDao' and 'com.yins.health.dao.TbDeptDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbQuestionnaireDao' and 'com.yins.health.dao.TbQuestionnaireDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbQuestionnaireItemDao' and 'com.yins.health.dao.TbQuestionnaireItemDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbRuleDao' and 'com.yins.health.dao.TbRuleDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbRuleModelDao' and 'com.yins.health.dao.TbRuleModelDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbStatisticsDao' and 'com.yins.health.dao.TbStatisticsDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbStatisticsItemDao' and 'com.yins.health.dao.TbStatisticsItemDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbTaskDao' and 'com.yins.health.dao.TbTaskDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbTaskUserDao' and 'com.yins.health.dao.TbTaskUserDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbUserDao' and 'com.yins.health.dao.TbUserDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbUserDeptDao' and 'com.yins.health.dao.TbUserDeptDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'tbViewDao' and 'com.yins.health.dao.TbViewDao' mapperInterface. Bean already defined with the same name!
+10:59:58.607 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.yins.health.dao]' package. Please check your configuration.
+10:59:59.000 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'spring.datasource.dynamic-com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:59:59.001 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration$$EnhancerBySpringCGLIB$$c7f34c0e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:59:59.016 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dsProcessor' of type [com.baomidou.dynamic.datasource.processor.DsHeaderProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:59:59.021 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'dynamicDatasourceAnnotationAdvisor' of type [com.baomidou.dynamic.datasource.aop.DynamicDataSourceAnnotationAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+10:59:59.458 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8023 (http)
+10:59:59.477 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8023"]
+10:59:59.479 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+10:59:59.479 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.68]
+10:59:59.749 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+10:59:59.751 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2754 ms
+11:00:00.077 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+11:00:00.588 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+11:00:00.588 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - load a datasource named [master] success
+11:00:00.588 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [1] datasource,primary datasource named [master]
+11:00:07.414 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8023"]
+11:00:07.468 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8023 (http) with context path ''
+11:00:08.056 [main] INFO  c.y.h.HealthManagementServerApplication - Started HealthManagementServerApplication in 11.89 seconds (JVM running for 13.788)
+11:00:30.404 [http-nio-8023-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:00:30.404 [http-nio-8023-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+11:00:30.408 [http-nio-8023-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+11:00:35.007 [http-nio-8023-exec-2] INFO  c.y.h.interceptor.LoginInterceptor - Token 续期成功，新的过期时间 3 小时

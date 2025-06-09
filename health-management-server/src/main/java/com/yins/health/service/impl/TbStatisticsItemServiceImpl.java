@@ -332,7 +332,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
     @Override
     public List<TbStatisticsItemYearVo> selectYearAll(TbStatisticsItemDto tbStatisticsItemDto) {
         List<TbStatisticsItemYearVo> list = baseMapper.selectYearAll(tbStatisticsItemDto);
-        TbStatisticsItemYearVo.change(list);
+        list = TbStatisticsItemYearVo.change(list);
         return list;
     }
 

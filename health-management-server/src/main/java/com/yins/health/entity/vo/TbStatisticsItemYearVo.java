@@ -4,12 +4,17 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.text.DecimalFormat;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
+@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 public class TbStatisticsItemYearVo {
     @ApiModelProperty(value = "用户/部门")
@@ -46,6 +51,8 @@ public class TbStatisticsItemYearVo {
 
     @ApiModelProperty(value = "总周数")
     private Integer weeks = 35;
+    @ApiModelProperty(value = "部门名称")
+    private String deptName;
 
     public void setViewsWorksRate() {
         double percentageDay = ((double) dayNum / days) * 100;
@@ -58,9 +65,13 @@ public class TbStatisticsItemYearVo {
     }
 
 
-    public static void change(List<TbStatisticsItemYearVo> list) {
+    public static List<TbStatisticsItemYearVo> change(List<TbStatisticsItemYearVo> list) {
+        Map<String,TbStatisticsItemYearVo> map = new LinkedHashMap<>();
         for (TbStatisticsItemYearVo item : list) {
+            map.putIfAbsent(item.getDeptName(), new TbStatisticsItemYearVo().setUserName(item.getDeptName()));
             item.setViewsWorksRate();
+            map.put(item.getDeptName()+item.getUserName(), item);
         }
+        return new ArrayList<>(map.values());
     }
 }
