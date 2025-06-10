@@ -18,7 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             .addPathPatterns("/api/**")
             .excludePathPatterns("/api/account/v1/login", "/api/account/v1/register","/api/image/v1/*",
                     "/api/account/v1/authentication","/api/phone/v1/**",
-                    "/api/account/v1/jssdk","/api/file/v1/upload"
+                    "/api/account/v1/jssdk","/api/file/v1/upload","/api/file/v1/mediaUrl"
             );
     }
 }

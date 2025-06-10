@@ -345,7 +345,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
         if (StringUtils.isNotEmpty(ticket)) {
             return ticket;
         }
-        String param = "access_token=" + getAccessToken() + "&type=jsapi";
+        String param = "access_token=" + getAccessToken() + "&type=agent_config";
         ticketUrl = ticketUrl + "?" + param;
         String resultJsonStr = HttpUtils.sendGetString(ticketUrl);
         if (StringUtils.isEmpty(resultJsonStr)) {

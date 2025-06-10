@@ -28,4 +28,6 @@ public class WeixinConfig {
     private String userUrl;
     @Value("ticketUrl")
     private String ticketUrl;
+    @Value("mediaUrl")
+    private String mediaUrl;
 }

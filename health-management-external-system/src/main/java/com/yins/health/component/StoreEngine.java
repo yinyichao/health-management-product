@@ -81,7 +81,7 @@ public interface StoreEngine {
      * @return 上传是否成功
      */
     boolean upload(String bucketName, String objectKey, MultipartFile file);
-
+    boolean upload(String bucketName, String objectKey, byte[] fileBytes);
     boolean upload(String bucketName, String objectKey, File file);
 
     /**

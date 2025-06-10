@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -140,6 +141,25 @@ public class MinIOFileStoreEngine implements StoreEngine {
         if (bucketExists(bucketName)) {
             try {
                 amazonS3Client.putObject(bucketName, objectKey, new File(localFileName));
+                return true;
+            } catch (Exception e) {
+                log.error("上传文件到 bucket {} 失败: {}", bucketName, e.getMessage(), e);
+            }
+        }
+        return false;
+    }
+    /**
+     * 上传本地文件到 bucket
+     *
+     * @param bucketName    bucket 名称
+     * @param objectKey     对象键
+     * @param fileBytes 文件流
+     * @return 如果上传成功返回 true，否则返回 false
+     */
+    public boolean upload(String bucketName, String objectKey, byte[] fileBytes) {
+        if (bucketExists(bucketName)) {
+            try {
+                amazonS3Client.putObject(bucketName, objectKey, new ByteArrayInputStream(fileBytes),null);
                 return true;
             } catch (Exception e) {
                 log.error("上传文件到 bucket {} 失败: {}", bucketName, e.getMessage(), e);

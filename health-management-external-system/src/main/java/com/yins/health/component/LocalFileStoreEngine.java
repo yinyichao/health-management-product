@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @Version 1.0
  **/
 //@Component
-public class LocalFileStoreEngine implements StoreEngine {
+public abstract class LocalFileStoreEngine implements StoreEngine {
     @Override
     public boolean bucketExists(String bucketName) {
         return false;

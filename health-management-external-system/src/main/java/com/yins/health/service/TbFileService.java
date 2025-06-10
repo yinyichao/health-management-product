@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface TbFileService extends IService<TbFile> {
     String upload(MultipartFile file);
+
+    String upload(String mediaId);
     //String getDownloadUrl(String objectKey);
 }
 

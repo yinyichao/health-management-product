@@ -20,7 +20,7 @@ import com.amazonaws.services.s3.model.*;
  * @Version 1.0
  **/
 //@Component
-public class OSSFileStoreEngine implements StoreEngine{
+public abstract class OSSFileStoreEngine implements StoreEngine{
     @Override
     public boolean bucketExists(String bucketName) {
         return false;
