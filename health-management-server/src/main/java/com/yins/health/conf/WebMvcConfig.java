@@ -16,6 +16,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
             .addPathPatterns("/api/**")
-            .excludePathPatterns("/api/questionnaireItem/v1/insert");
+            .excludePathPatterns("/api/questionnaireItem/v1/insert","/api/questionnaire/v1/selectOne");
     }
 }

@@ -305,8 +305,8 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
     }
 
     @Override
-    public AgentConfigParam obtainConfigParam() {
-
+    public AgentConfigParam obtainConfigParam(String url) {
+        log.info("url：{}",url);
         String ticket = null;
         try {
             ticket = this.getJsapiTicket();
@@ -314,7 +314,6 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
             throw new RuntimeException(e);
         }
         Assert.hasText(ticket , "Ticket获取不到");
-        String url = weixinConfig.getDeptUrl();
         String corpid = weixinConfig.getCorpid();
         String nonceStr = RandomStringUtils.randomAlphanumeric(10);
         String timeStamp = Long.toString(System.currentTimeMillis() / 1000);

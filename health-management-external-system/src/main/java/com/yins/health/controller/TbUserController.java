@@ -94,8 +94,8 @@ public class TbUserController {
      */
     @GetMapping("jssdk")
     @Operation(summary = "jssdk", description = "企微-jssdk")
-    public AppResult obtainConfigParam(){
-        return  AppResult.successResult(tbUserService.obtainConfigParam());
+    public AppResult obtainConfigParam(String url){
+        return  AppResult.successResult(tbUserService.obtainConfigParam(url));
     }
 
 }
