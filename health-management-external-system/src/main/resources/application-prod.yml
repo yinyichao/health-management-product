@@ -58,6 +58,7 @@ weixin:
   userinfoUrl: https://qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo
   deptUrl: https://qyapi.weixin.qq.com/cgi-bin/department/list
   userUrl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
+  ticketUrl: https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket
 
 duanxin:
   url: https://oa.dyjk.cn/prod-api/interface/tjapi/gettoken

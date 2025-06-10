@@ -26,4 +26,6 @@ public class WeixinConfig {
 
     @Value("userUrl")
     private String userUrl;
+    @Value("ticketUrl")
+    private String ticketUrl;
 }

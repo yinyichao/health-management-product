@@ -6,14 +6,16 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.yins.health.util.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yins.health.common.ServiceException;
 import com.yins.health.conf.AccountConfig;
 import com.yins.health.conf.JwtUtil;
 import com.yins.health.conf.RedisKey;
 import com.yins.health.conf.WeixinConfig;
 import com.yins.health.constant.BizCodeEnum;
+import com.yins.health.entity.AgentConfigParam;
 import com.yins.health.dao.*;
 import com.yins.health.dto.AccountDto;
 import com.yins.health.dto.AccountRegisterDto;
@@ -25,7 +27,9 @@ import com.yins.health.util.AesUtil;
 import com.yins.health.util.CommonUtil;
 import com.yins.health.util.HttpUtils;
 import com.yins.health.vo.LoginVo;
+import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,11 +37,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -205,25 +208,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
 
     @Override
     public LoginVo authentication(String code){
-        String tokenKey = redisKey.access_token;
-        String redisToken = stringRedisTemplate.opsForValue().get(tokenKey);
-        if (redisToken == null) {
-            String url = weixinConfig.getUrl() + "?corpid=" + weixinConfig.getCorpid() + "&corpsecret=" + weixinConfig.getCorpsecret();
-            String res;
-            try {
-                res = HttpUtils.sendGetString(url);
-            } catch (Exception e) {
-                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
-            }
-            JSONObject json = JSONUtil.parseObj(res);
-            redisToken = json.getStr("access_token");
-            if(redisToken == null) {
-                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
-            }else{
-                stringRedisTemplate.opsForValue().set(tokenKey,redisToken,1000 * 7, TimeUnit.SECONDS);
-            }
-        }
-        System.out.println("-----------------------------"+redisToken);
+        String redisToken = getAccessToken();
         String url = weixinConfig.getUserinfoUrl() + "?access_token="+redisToken+"&code=" + code;
         String res;
         try {
@@ -243,6 +228,29 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
         recordLogin(accountDTO.getId(),null,null);
 
         return loginSuccessTask(accountDTO);
+    }
+
+    private String getAccessToken() {
+        String tokenKey = redisKey.access_token;
+        String redisToken = stringRedisTemplate.opsForValue().get(tokenKey);
+        if (redisToken == null) {
+            String url = weixinConfig.getUrl() + "?corpid=" + weixinConfig.getCorpid() + "&corpsecret=" + weixinConfig.getCorpsecret();
+            String res;
+            try {
+                res = HttpUtils.sendGetString(url);
+            } catch (Exception e) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }
+            JSONObject json = JSONUtil.parseObj(res);
+            redisToken = json.getStr("access_token");
+            if(redisToken == null) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }else{
+                stringRedisTemplate.opsForValue().set(tokenKey,redisToken,1000 * 7, TimeUnit.SECONDS);
+            }
+        }
+        System.out.println("-----------------------------"+redisToken);
+        return redisToken;
     }
 
     @Override
@@ -293,6 +301,121 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
                 }
                 tbUserDeptDao.insert(tbUserDept);
             }
+        }
+    }
+
+    @Override
+    public AgentConfigParam obtainConfigParam() {
+
+        String ticket = null;
+        try {
+            ticket = this.getJsapiTicket();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Assert.hasText(ticket , "Ticket获取不到");
+        String url = weixinConfig.getDeptUrl();
+        String corpid = weixinConfig.getCorpid();
+        String nonceStr = RandomStringUtils.randomAlphanumeric(10);
+        String timeStamp = Long.toString(System.currentTimeMillis() / 1000);
+        log.info("corpid:{}，nonceStr：{}，timeStamp：{}", corpid , nonceStr , timeStamp);
+
+        SortedMap<String, String> params = new TreeMap<>();
+        params.put("noncestr" , nonceStr);
+        params.put("jsapi_ticket" , ticket);
+        params.put("timestamp" , timeStamp);
+        params.put("url" , url);
+        String signature = sortSignByASCII(params);
+        log.info("step1:待签名参数按照字段名的ASCII码从小到大排序：{}",signature);
+        signature = sha1Digest(signature);
+        log.info("step2:对string1进行sha1签名，得到signature:{}",signature);
+
+        AgentConfigParam configParam = AgentConfigParam.builder()
+                .corpid(corpid)
+                .nonceStr(nonceStr)
+                .timestamp(timeStamp)
+                .signature(signature)
+                .build();
+        System.out.println(configParam);
+        return configParam;
+    }
+    private String getJsapiTicket() throws Exception {
+        String ticketUrl = weixinConfig.getTicketUrl();
+        String tokenKey = redisKey.ticket_pre;
+        String ticket = stringRedisTemplate.opsForValue().get(tokenKey);
+        if (StringUtils.isNotEmpty(ticket)) {
+            return ticket;
+        }
+        String param = "access_token=" + getAccessToken() + "&type=jsapi";
+        ticketUrl = ticketUrl + "?" + param;
+        String resultJsonStr = HttpUtils.sendGetString(ticketUrl);
+        if (StringUtils.isEmpty(resultJsonStr)) {
+            throw new ServiceException("获取jsapi失败");
+        }
+        JSONObject resultJsonObject = JSONUtil.parseObj(resultJsonStr);
+        Integer errcode = resultJsonObject.getInt("errcode");
+        if (errcode == 0) {
+            ticket = resultJsonObject.getStr("ticket");
+            Long expires = resultJsonObject.getLong("expires_in");
+            stringRedisTemplate.opsForValue().set(tokenKey,ticket,expires, TimeUnit.SECONDS);
+        } else {
+            log.error("获取jsapi失败:{}", resultJsonObject.getStr("errmsg"));
+            throw new ServiceException("获取jsapi失败");
+        }
+        return ticket;
+    }
+
+    /**
+     * <h2>对所有待签名参数按照字段名的ASCII 码从小到大排序</h2>
+     * @Author nicky
+     * @Date 2021/04/25 20:22
+     * @Param [params]
+     * @return java.lang.String
+     */
+    public static String sortSignByASCII(SortedMap<String , String> parameters) {
+        // 以k1=v1&k2=v2...方式拼接参数
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, String> s : parameters.entrySet()) {
+            String k = s.getKey();
+            String v = s.getValue();
+            // 过滤空值
+            if (StringUtils.isBlank(v)) {
+                continue;
+            }
+            builder.append(k).append("=").append(v).append("&");
+        }
+        if (!parameters.isEmpty()) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        return builder.toString();
+    }
+    /**
+     * sha1加密 <br>
+     * @Author nicky
+     * @Date 2021/04/26 10:22
+     * @Param [str]
+     * @return java.lang.String
+     */
+    public static String sha1Digest(String str) {
+        try {
+            // SHA1签名生成
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(str.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuffer hexstr = new StringBuffer();
+            String shaHex = "";
+            for (int i = 0; i < digest.length; i++) {
+                shaHex = Integer.toHexString(digest[i] & 0xFF);
+                if (shaHex.length() < 2) {
+                    hexstr.append(0);
+                }
+                hexstr.append(shaHex);
+            }
+            return hexstr.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

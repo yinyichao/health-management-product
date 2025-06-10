@@ -88,6 +88,15 @@ public class TbUserController {
         tbUserService.weixin();
         return AppResult.successResult("");
     }
+    /**
+     * <h2>获取JS-SDK</h2>
+     *
+     */
+    @GetMapping("jssdk")
+    @Operation(summary = "jssdk", description = "企微-jssdk")
+    public AppResult obtainConfigParam(){
+        return  AppResult.successResult(tbUserService.obtainConfigParam());
+    }
 
 }
 

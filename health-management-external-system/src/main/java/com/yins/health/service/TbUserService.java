@@ -1,6 +1,7 @@
 package com.yins.health.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yins.health.entity.AgentConfigParam;
 import com.yins.health.dto.AccountDto;
 import com.yins.health.dto.AccountRegisterDto;
 import com.yins.health.entity.TbUser;
@@ -29,5 +30,7 @@ public interface TbUserService extends IService<TbUser> {
     LoginVo authentication(String code);
 
     void weixin() throws Exception;
+
+    AgentConfigParam obtainConfigParam();
 }
 
