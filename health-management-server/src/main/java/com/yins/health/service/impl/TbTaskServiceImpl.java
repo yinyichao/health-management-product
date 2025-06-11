@@ -113,6 +113,8 @@ public class TbTaskServiceImpl extends ServiceImpl<TbTaskDao, TbTask> implements
         IPage<TbTaskPageVo> page = new Page<>();
         page.setCurrent(tbTaskDto.getPageNum());
         page.setSize(tbTaskDto.getPageSize());
+        tbTaskDto.setBeginTime(tbTaskDto.getBeginDateTime());
+        tbTaskDto.setEndTime(tbTaskDto.getEndDateTime());
         return baseMapper.selectByPage(page,tbTaskDto);
     }
 

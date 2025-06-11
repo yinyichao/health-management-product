@@ -83,6 +83,8 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
         IPage<TbQuestionnaireItemVo> page = new Page<>();
         page.setCurrent(tbQuestionnaireItemDto.getPageNum());
         page.setSize(tbQuestionnaireItemDto.getPageSize());
+        tbQuestionnaireItemDto.setBeginTime(tbQuestionnaireItemDto.getBeginDateTime());
+        tbQuestionnaireItemDto.setEndTime(tbQuestionnaireItemDto.getEndDateTime());
         return baseMapper.selectByPage(page,tbQuestionnaireItemDto);
     }
 
@@ -93,6 +95,8 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
 
     @Override
     public List<TbQuestionnaireItemVo> listByTbAdd(TbQuestionnaireItemDto tbQuestionnaireItemDto) {
+        tbQuestionnaireItemDto.setBeginTime(tbQuestionnaireItemDto.getBeginDateTime());
+        tbQuestionnaireItemDto.setEndTime(tbQuestionnaireItemDto.getEndDateTime());
         return baseMapper.selectByList(tbQuestionnaireItemDto);
     }
 }

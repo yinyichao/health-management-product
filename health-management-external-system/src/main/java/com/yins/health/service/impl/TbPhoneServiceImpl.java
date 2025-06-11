@@ -38,7 +38,7 @@ public class TbPhoneServiceImpl implements TbPhoneService {
     public String sendSMS(String phoneNumber) {
         String redisToken = getString();
         String url = duanxinConfig.getSendUrl() + "?phoneNumber="+phoneNumber;
-        HttpResponse response = HttpRequest.post(url)
+        HttpResponse response = HttpRequest.get(url)
                 .header("Authorization", redisToken) // JSON类型
                 //.body(jsonStr) // JSON数据
                 .execute();

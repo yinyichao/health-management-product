@@ -34,6 +34,8 @@ public class TbQuestionnaireServiceImpl extends ServiceImpl<TbQuestionnaireDao, 
         IPage<TbQuestionnaireVo> page = new Page<>();
         page.setCurrent(tbQuestionnaireDto.getPageNum());
         page.setSize(tbQuestionnaireDto.getPageSize());
+        tbQuestionnaireDto.setBeginTime(tbQuestionnaireDto.getBeginDateTime());
+        tbQuestionnaireDto.setEndTime(tbQuestionnaireDto.getEndDateTime());
         return baseMapper.selectByPage(page,tbQuestionnaireDto);
     }
 }
