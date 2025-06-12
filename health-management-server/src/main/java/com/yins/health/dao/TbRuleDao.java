@@ -36,7 +36,7 @@ public interface TbRuleDao extends BaseMapper<TbRule> {
             "<if test='tbRuleDto.endTime != null and tbRuleDto.endTime != \"\"'>",
             "  AND r.CREATED_TIME &lt;= #{tbRuleDto.endTime}",
             "</if>",
-            " order by r.id",
+            " order by r.CREATED_TIME desc",
             "</script>"
     })
     IPage<TbRuleVo> selectByPage(IPage<TbRuleVo> page, @Param("tbRuleDto") TbRuleDto tbRuleDto);

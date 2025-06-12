@@ -30,7 +30,7 @@ public interface TbTaskDao extends BaseMapper<TbTask> {
             "<if test='dto.endTime != null and dto.endTime != \"\"'>",
             "  AND r.CREATED_TIME &lt;= #{dto.endTime}",
             "</if>",
-            " order by r.id",
+            " order by r.CREATED_TIME",
             "</script>"
     })
     IPage<TbTaskPageVo> selectByPage(IPage<TbTaskPageVo> page, @Param("dto") TbTaskDto tbTaskDto);

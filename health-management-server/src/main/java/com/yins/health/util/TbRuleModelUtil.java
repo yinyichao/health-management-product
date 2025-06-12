@@ -42,6 +42,17 @@ public class TbRuleModelUtil {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter); // 输出如"2025-05-21 14:30:00"
     }
+    public static String month(int num) {
+        // 当前日期减去 num 月
+        LocalDate targetDate = LocalDate.now().minusMonths(num);
+        // 设置为该月的第一天
+        LocalDate firstDayOfMonth = targetDate.withDayOfMonth(1);
+        // 设置时间为 00:00:00
+        LocalDateTime localDateTime = LocalDateTime.of(firstDayOfMonth, LocalTime.MIDNIGHT);
+        // 格式化
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return localDateTime.format(formatter);
+    }
 
     public static String week() {
         LocalDate today = LocalDate.now();
@@ -51,10 +62,30 @@ public class TbRuleModelUtil {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter); // 输出如"2025-05-21 14:30:00"
     }
+    public static String week(int num) {
+        // 获取今天
+        LocalDate today = LocalDate.now();
+        // 回退 num 周（每周 7 天）
+        LocalDate targetDate = today.minusWeeks(num);
+        // 获取该日期所在周的周一
+        LocalDate monday = targetDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        // 设置为 00:00:00
+        LocalDateTime mondayStart = LocalDateTime.of(monday, LocalTime.MIDNIGHT);
+        // 格式化输出
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return mondayStart.format(formatter);
+    }
     public static String day() {
         LocalDate today = LocalDate.now();
         LocalTime time = LocalTime.of(0,0,0);
         LocalDateTime localDateTime = LocalDateTime.of(today, time);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return localDateTime.format(formatter); // 输出如"2025-05-21 14:30:00"
+    }
+    public static String day(int num) {
+        LocalDate targetDate = LocalDate.now().minusDays(num);
+        LocalTime time = LocalTime.of(0,0,0);
+        LocalDateTime localDateTime = LocalDateTime.of(targetDate, time);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter); // 输出如"2025-05-21 14:30:00"
     }

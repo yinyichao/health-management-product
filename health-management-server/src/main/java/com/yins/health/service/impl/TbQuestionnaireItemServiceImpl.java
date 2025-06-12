@@ -51,22 +51,42 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
         RuleDto ruleDto = new RuleDto();
         List<TbRuleModel> list = new ArrayList<>();
         for (TbRule tbRule : tbRuleList) {
-            switch (tbRule.getCycle()) {
-                case "每月":
-                    beginTime = TbRuleModelUtil.month();
-                    break;
-                case "每周":
-                    beginTime = TbRuleModelUtil.week();
-                    break;
-                case "每日":
-                    beginTime = TbRuleModelUtil.day();
-                    break;
-                case "小时":
-                    beginTime = TbRuleModelUtil.hours(tbRule.getHours());
-                    break;
+            Integer counts = 0;
+            if(tbRule.getRule().equals("特殊规则")){
+                switch (tbRule.getCycle()) {
+                    case "月":
+                        beginTime = TbRuleModelUtil.month(tbRule.getHours());
+                        break;
+                    case "周":
+                        beginTime = TbRuleModelUtil.week(tbRule.getHours());
+                        break;
+                    case "日":
+                        beginTime = TbRuleModelUtil.day(tbRule.getHours());
+                        break;
+                    case "小时":
+                        beginTime = TbRuleModelUtil.hours(tbRule.getHours());
+                        break;
+                }
+                counts = baseMapper.selectCount(new LambdaQueryWrapper<TbQuestionnaireItem>().eq(TbQuestionnaireItem::getDel, 0).eq(TbQuestionnaireItem::getState, "有效")
+                        .eq(TbQuestionnaireItem::getName,tbQuestionnaireItem.getName()).ge(TbQuestionnaireItem::getUpdatedTime, beginTime));
+            }else{
+                switch (tbRule.getCycle()) {
+                    case "每月":
+                        beginTime = TbRuleModelUtil.month();
+                        break;
+                    case "每周":
+                        beginTime = TbRuleModelUtil.week();
+                        break;
+                    case "每日":
+                        beginTime = TbRuleModelUtil.day();
+                        break;
+                    case "小时":
+                        beginTime = TbRuleModelUtil.hours(tbRule.getHours());
+                        break;
+                }
+                counts = baseMapper.selectCount(new LambdaQueryWrapper<TbQuestionnaireItem>().eq(TbQuestionnaireItem::getDel, 0).eq(TbQuestionnaireItem::getState, "有效")
+                        .ge(TbQuestionnaireItem::getUpdatedTime, beginTime));
             }
-            Integer counts = baseMapper.selectCount(new LambdaQueryWrapper<TbQuestionnaireItem>().eq(TbQuestionnaireItem::getDel, 0).eq(TbQuestionnaireItem::getState, "有效")
-                    .ge(TbQuestionnaireItem::getUpdatedTime, beginTime));
             TbRuleModelUtil.getString(tbRule, counts, ruleDto, list);
         }
         tbQuestionnaireItem.setLabel(ruleDto.getLabel());

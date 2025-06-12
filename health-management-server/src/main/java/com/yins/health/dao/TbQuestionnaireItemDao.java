@@ -46,7 +46,7 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
             "<if test='dto.endTime != null and dto.endTime != \"\"'>",
             "  AND i.CREATED_TIME &lt;= #{dto.endTime}",
             "</if>",
-            " order by i.id",
+            " order by i.CREATED_TIME desc",
             "</script>"
     })
     IPage<TbQuestionnaireItemVo> selectByPage(IPage<TbQuestionnaireItemVo> page,@Param("dto") TbQuestionnaireItemDto tbQuestionnaireItemDto);
@@ -73,7 +73,7 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
             "<if test='dto.endTime != null and dto.endTime != \"\"'>",
             "  AND i.CREATED_TIME &lt;= #{dto.endTime}",
             "</if>",
-            " order by i.id",
+            " order by i.CREATED_TIME desc",
             "</script>"
     })
     List<TbQuestionnaireItemVo> selectByList(@Param("dto") TbQuestionnaireItemDto tbQuestionnaireItemDto);

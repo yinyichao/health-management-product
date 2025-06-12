@@ -48,7 +48,8 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
                 .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
                 .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginDateTime())
-                .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime()));
+                .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime())
+                .orderByDesc(TbView::getCreatedTime));
     }
 
     @Override
@@ -59,7 +60,8 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
                 .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
                 .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginDateTime())
-                .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime()));
+                .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime())
+                .orderByDesc(TbView::getCreatedTime));
     }
 
     @Override

@@ -47,7 +47,8 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
                 .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getUsername()), TbAdd::getUsername, tbAddDto.getUsername())
                 .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginDateTime())
-                .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime()));
+                .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime())
+                .orderByDesc(TbAdd::getCreatedTime));
     }
 
     @Override
@@ -101,7 +102,8 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
                 .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getUsername()), TbAdd::getUsername, tbAddDto.getUsername())
                 .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginDateTime())
-                .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime()));
+                .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime())
+                .orderByDesc(TbAdd::getCreatedTime));
     }
 
 
