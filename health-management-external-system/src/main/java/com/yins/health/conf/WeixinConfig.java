@@ -30,4 +30,15 @@ public class WeixinConfig {
     private String ticketUrl;
     @Value("mediaUrl")
     private String mediaUrl;
+
+    @Value("AppID")
+    private String AppID;
+    @Value("secret")
+    private String Secret;
+
+    @Value("weixinTokenUrl")
+    private String weixinTokenUrl;
+
+    @Value("weixinTicketUrl")
+    private String weixinTicketUrl;
 }

@@ -56,7 +56,7 @@ public class TbFileServiceImpl extends ServiceImpl<TbFileDao, TbFile> implements
     public String upload(MultipartFile file) {
         String objectKey = CommonUtil.getFilePath(file.getOriginalFilename());
         fileStoreEngine.upload(minioConfig.getHealthBucketName(), objectKey, file);
-        String downloadUrl = minioConfig.getPre() + "/" + objectKey;
+        String downloadUrl = minioConfig.getPre() + objectKey;
                 //String downloadUrl = fileStoreEngine.getDownloadUrl(minioConfig.getHealthBucketName(), objectKey);
         //String downloadUrl = fileStoreEngine.getDownloadUrl(minioConfig.getHealthBucketName(),
         //        objectKey, minioConfig.getPreSignUrlExpireTime(), TimeUnit.MILLISECONDS);
@@ -82,7 +82,7 @@ public class TbFileServiceImpl extends ServiceImpl<TbFileDao, TbFile> implements
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        String downloadUrl = minioConfig.getPre() + "/" + objectKey;
+        String downloadUrl = minioConfig.getPre() + objectKey;
         TbFile tbFile = new TbFile();
         tbFile.setObjectKey(downloadUrl);
         tbFile.setFileName(objectKey);

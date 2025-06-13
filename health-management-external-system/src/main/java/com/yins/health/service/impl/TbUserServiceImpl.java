@@ -252,7 +252,29 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
         System.out.println("-----------------------------"+redisToken);
         return redisToken;
     }
-
+    private String getAccessToken1() {
+        String tokenKey = redisKey.weixin_access_token;
+        String redisToken = stringRedisTemplate.opsForValue().get(tokenKey);
+        if (redisToken == null) {
+            String url = weixinConfig.getWeixinTokenUrl() + "&appid=" + weixinConfig.getAppID() + "&secret=" + weixinConfig.getSecret();
+            String res;
+            try {
+                res = HttpUtils.sendGetString(url);
+            } catch (Exception e) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }
+            JSONObject json = JSONUtil.parseObj(res);
+            redisToken = json.getStr("access_token");
+            if(redisToken == null) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }else{
+                Long expires = json.getLong("expires_in");
+                stringRedisTemplate.opsForValue().set(tokenKey,redisToken,expires, TimeUnit.SECONDS);
+            }
+        }
+        System.out.println("-----------------------------"+redisToken);
+        return redisToken;
+    }
     @Override
     public void weixin() throws Exception {
         String tokenKey = redisKey.access_token;
@@ -337,6 +359,65 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserDao, TbUser> implements
                 .build();
         System.out.println(configParam);
         return configParam;
+    }
+    @Override
+    public AgentConfigParam obtainConfigParam1(String url) {
+        log.info("url：{}",url);
+        String ticket = null;
+        try {
+            ticket = this.getJsapiTicket1();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Assert.hasText(ticket , "Ticket获取不到");
+        String corpid = weixinConfig.getAppID();
+        String nonceStr = RandomStringUtils.randomAlphanumeric(10);
+        String timeStamp = Long.toString(System.currentTimeMillis() / 1000);
+        log.info("corpid:{}，nonceStr：{}，timeStamp：{}", corpid , nonceStr , timeStamp);
+
+        SortedMap<String, String> params = new TreeMap<>();
+        params.put("noncestr" , nonceStr);
+        params.put("jsapi_ticket" , ticket);
+        params.put("timestamp" , timeStamp);
+        params.put("url" , url);
+        String signature = sortSignByASCII(params);
+        log.info("step1:待签名参数按照字段名的ASCII码从小到大排序：{}",signature);
+        signature = sha1Digest(signature);
+        log.info("step2:对string1进行sha1签名，得到signature:{}",signature);
+
+        AgentConfigParam configParam = AgentConfigParam.builder()
+                .corpid(corpid)
+                .nonceStr(nonceStr)
+                .timestamp(timeStamp)
+                .signature(signature)
+                .build();
+        System.out.println(configParam);
+        return configParam;
+    }
+    private String getJsapiTicket1() throws Exception {
+        String ticketUrl = weixinConfig.getWeixinTicketUrl();
+        String tokenKey = redisKey.weixin_ticket_pre;
+        String ticket = stringRedisTemplate.opsForValue().get(tokenKey);
+        if (StringUtils.isNotEmpty(ticket)) {
+            return ticket;
+        }
+        String param = "access_token=" + getAccessToken1() + "&type=jsapi";
+        ticketUrl = ticketUrl + "?" + param;
+        String resultJsonStr = HttpUtils.sendGetString(ticketUrl);
+        if (StringUtils.isEmpty(resultJsonStr)) {
+            throw new ServiceException("获取jsapi失败");
+        }
+        JSONObject resultJsonObject = JSONUtil.parseObj(resultJsonStr);
+        Integer errcode = resultJsonObject.getInt("errcode");
+        if (errcode == 0) {
+            ticket = resultJsonObject.getStr("ticket");
+            Long expires = resultJsonObject.getLong("expires_in");
+            stringRedisTemplate.opsForValue().set(tokenKey,ticket,expires, TimeUnit.SECONDS);
+        } else {
+            log.error("获取jsapi失败:{}", resultJsonObject.getStr("errmsg"));
+            throw new ServiceException("获取jsapi失败");
+        }
+        return ticket;
     }
     private String getJsapiTicket() throws Exception {
         String ticketUrl = weixinConfig.getTicketUrl();

@@ -30,7 +30,7 @@ minio:
   bucket-name-public: qf-public
   avatar-bucket-name: avatar
   health-bucket-name: actfiles
-  pre: http://106.53.58.221:10001/api/v1/buckets/actfiles/objects/download?preview=true&prefix=
+  pre: https://act.dyjk.cn/actfiles/
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -60,6 +60,10 @@ weixin:
   userUrl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
   ticketUrl: https://qyapi.weixin.qq.com/cgi-bin/ticket/get
   mediaUrl: https://qyapi.weixin.qq.com/cgi-bin/media/get
+  AppID: wx0c6183a526a5c605
+  secret: 446ba2a5ab1a90da51e76b7c883e41d1
+  weixinTokenUrl: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential
+  weixinTicketUrl: https://api.weixin.qq.com/cgi-bin/ticket/getticket
 
 duanxin:
   url: https://oa.dyjk.cn/prod-api/interface/tjapi/gettoken

@@ -32,5 +32,7 @@ public interface TbUserService extends IService<TbUser> {
     void weixin() throws Exception;
 
     AgentConfigParam obtainConfigParam(String url);
+
+    AgentConfigParam obtainConfigParam1(String url);
 }
 

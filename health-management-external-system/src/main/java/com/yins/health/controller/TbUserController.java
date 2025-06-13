@@ -93,10 +93,15 @@ public class TbUserController {
      *
      */
     @GetMapping("jssdk")
-    @Operation(summary = "jssdk", description = "企微-jssdk")
+    @Operation(summary = "企微-jssdk", description = "企微-jssdk")
     public AppResult obtainConfigParam(String url){
         return  AppResult.successResult(tbUserService.obtainConfigParam(url));
     }
 
+    @GetMapping("jssdk-1")
+    @Operation(summary = "微信-jssdk", description = "微信-jssdk")
+    public AppResult obtainConfigParam1(String url){
+        return  AppResult.successResult(tbUserService.obtainConfigParam1(url));
+    }
 }
 
