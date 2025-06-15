@@ -42,6 +42,17 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
         IPage<TbAdd> page = new Page<>();
         page.setCurrent(tbAddDto.getPageNum());
         page.setSize(tbAddDto.getPageSize());
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        if(isAdmin == 0){
+            return baseMapper.selectPage(page, new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getLabel()), TbAdd::getLabel, tbAddDto.getLabel())
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getUsername()), TbAdd::getUsername, tbAddDto.getUsername())
+                            .eq(TbAdd::getCreatedUser,LoginInterceptor.threadLocal.get().getId())
+                    .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginDateTime())
+                    .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime())
+                    .orderByDesc(TbAdd::getCreatedTime));
+        }
         return baseMapper.selectPage(page, new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
                 .eq(StringUtils.isNotEmpty(tbAddDto.getLabel()), TbAdd::getLabel, tbAddDto.getLabel())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
@@ -64,13 +75,13 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
         List<TbRuleModel> list = new ArrayList<>();
         for (TbRule tbRule : tbRuleList) {
             switch (tbRule.getCycle()) {
-                case "每月":
+                case "月":
                     beginTime = TbRuleModelUtil.month();
                     break;
-                case "每周":
+                case "周":
                     beginTime = TbRuleModelUtil.week();
                     break;
-                case "每日":
+                case "日":
                     beginTime = TbRuleModelUtil.day();
                     break;
                 case "小时":
@@ -83,6 +94,9 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
         }
         tbAdd.setLabel(ruleDto.getLabel());
         tbAdd.setLabelContent(ruleDto.getContent());
+        if(ruleDto.getLabel().equals("高风险")){
+            tbAdd.setState("作废");
+        }
         baseMapper.insert(tbAdd);
         for(TbRuleModel tbRuleModel : list){
             tbRuleModel.setModelId(tbAdd.getId());
@@ -97,6 +111,17 @@ public class TbAddServiceImpl extends ServiceImpl<TbAddDao, TbAdd> implements Tb
 
     @Override
     public List<TbAdd> listByTbAdd(TbAddDto tbAddDto) {
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        if(isAdmin == 0){
+            return baseMapper.selectList(new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getLabel()), TbAdd::getLabel, tbAddDto.getLabel())
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())
+                    .eq(StringUtils.isNotEmpty(tbAddDto.getUsername()), TbAdd::getUsername, tbAddDto.getUsername())
+                    .eq(TbAdd::getCreatedUser,LoginInterceptor.threadLocal.get().getId())
+                    .ge(StringUtils.isNotEmpty(tbAddDto.getBeginTime()), TbAdd::getCreatedTime, tbAddDto.getBeginDateTime())
+                    .le(StringUtils.isNotEmpty(tbAddDto.getEndTime()), TbAdd::getCreatedTime, tbAddDto.getEndDateTime())
+                    .orderByDesc(TbAdd::getCreatedTime));
+        }
         return baseMapper.selectList(new LambdaQueryWrapper<TbAdd>().eq(TbAdd::getDel, 0)
                 .eq(StringUtils.isNotEmpty(tbAddDto.getLabel()), TbAdd::getLabel, tbAddDto.getLabel())
                 .eq(StringUtils.isNotEmpty(tbAddDto.getName()), TbAdd::getName, tbAddDto.getName())

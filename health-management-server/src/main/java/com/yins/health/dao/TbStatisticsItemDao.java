@@ -19,7 +19,12 @@ import java.util.List;
 public interface TbStatisticsItemDao extends BaseMapper<TbStatisticsItem> {
     @Select({
             "<script>",
-            "SELECT i.user_name,d.name as dept_name,MAX(i.year) AS year",
+            "select a.user_name,a.dept_name,a.year,IFNULL(b.day_num,0) as day_num,IFNULL(b.week_num,0) as week_num from (select i.user_name,i.user_id,i.year,d.name as dept_name from tb_statistics i left join tb_user_dept u on i.user_id = u.user_id left join tb_dept d on u.dept_id = d.id ",
+                    "<if test='dto.userName != null and dto.userName != \"\"'>",
+                    "  WHERE (i.user_name LIKE CONCAT('%', #{dto.userName}, '%') or d.name LIKE CONCAT('%', #{dto.userName}, '%') )",
+                    "</if>",
+                    ") a left join ",
+                    "(SELECT i.user_name,i.user_id,d.name as dept_name,MAX(i.year) AS year",
             "<if test='dto.type == 1'>",
                     ",SUM(CASE WHEN i.type = 0 AND i.views_works > i.views_tasks THEN 1 ELSE 0 END) AS day_num,",
                     "SUM(CASE WHEN i.type = 1 AND i.views_works > i.views_tasks THEN 1 ELSE 0 END) AS week_num ",
@@ -34,20 +39,17 @@ public interface TbStatisticsItemDao extends BaseMapper<TbStatisticsItem> {
             "</if>",
             "FROM tb_statistics_item i left join tb_user_dept u on i.user_id = u.user_id left join tb_dept d on u.dept_id = d.id ",
             "WHERE i.type != 2 ",
-            "<if test='dto.userName != null and dto.userName != \"\"'>",
-            "  AND (i.user_name LIKE CONCAT('%', #{dto.userName}, '%') or d.name LIKE CONCAT('%', #{dto.userName}, '%') )",
-            "</if>",
             "<if test='dto.year != null and dto.year != \"\"'>",
             "  AND i.year = #{dto.year}",
             "</if>",
-            " group by i.user_name,d.name order by d.name",
+            " group by i.user_name,d.name ) b on a.user_id = b.user_id order by dept_name",
             "</script>"
     })
     List<TbStatisticsItemYearVo> selectYearAll(@Param("dto") TbStatisticsItemDto tbStatisticsItemDto);
 
     @Select({
             "<script>",
-            "select d.id as dept_id,d.name as dept_name,i.* from tb_statistics_item i left join tb_user_dept u on i.user_id = u.user_id left join tb_dept d on u.dept_id = d.id ",
+            "select (select task_id from tb_statistics where id = i.statistics_id) as task_id, d.id as dept_id,d.name as dept_name,i.* from tb_statistics_item i left join tb_user_dept u on i.user_id = u.user_id left join tb_dept d on u.dept_id = d.id ",
             "where i.type = 2",
             "<if test='dto.year != null and dto.year != \"\"'>",
             "  AND i.year = #{dto.year}",

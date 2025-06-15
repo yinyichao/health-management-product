@@ -23,6 +23,7 @@ public class TbQuestionnaireItemDto extends Query {
     private String beginTime;
     @ApiModelProperty(value = "结束时间")
     private String endTime;
+    private String userId;
     // 自动拼接后的开始时间
     public String getBeginDateTime() {
         return StringUtils.hasText(beginTime) ? beginTime + " 00:00:00" : null;

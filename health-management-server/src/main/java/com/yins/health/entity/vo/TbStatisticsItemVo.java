@@ -13,4 +13,6 @@ public class TbStatisticsItemVo extends TbStatisticsItem {
 
     @ApiModelProperty(value = "部门名称")
     private String deptName;
+
+    private Integer taskId;
 }

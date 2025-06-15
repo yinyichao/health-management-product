@@ -101,7 +101,8 @@ public class TbRule extends Model<TbRule> {
 
     public void change(){
         if(rule == null || rule.isEmpty() || rule.equals("一般规则")){
-            content = hours == null ? cycle + "提交超过" +num+ "次时标记为"+ruleType : "每"+hours + "小时提交超过" +num+ "次时标记为"+ruleType;
+            rule = "一般规则";
+            content = hours == null ? "每" + cycle + "提交超过" +num+ "次时标记为"+ruleType : "每"+hours + "小时提交超过" +num+ "次时标记为"+ruleType;
         }else{
             content = "每" + hours + cycle+ "内，同一客户提交"+num +"次时标记为"+ruleType;
         }

@@ -82,5 +82,6 @@ public class TbStatisticsItem extends Model<TbStatisticsItem> {
     @ExcelProperty(value = "questionnaireWorks")
     private Integer questionnaireWorks;
 
+    private Integer statisticsId;
 }
 

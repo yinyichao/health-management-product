@@ -62,8 +62,9 @@ weixin:
   mediaUrl: https://qyapi.weixin.qq.com/cgi-bin/media/get
   AppID: wx0c6183a526a5c605
   secret: 446ba2a5ab1a90da51e76b7c883e41d1
-  weixinTokenUrl: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential
+  weixinTokenUrl: https://api.weixin.qq.com/cgi-bin/stable_token
   weixinTicketUrl: https://api.weixin.qq.com/cgi-bin/ticket/getticket
+  weixinmediaUrl: https://api.weixin.qq.com/cgi-bin/media/get
 
 duanxin:
   url: https://oa.dyjk.cn/prod-api/interface/tjapi/gettoken

@@ -2,6 +2,7 @@ package com.yins.health.entity.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.yins.health.entity.TbTask;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -158,4 +159,47 @@ public class TbStatisticsItemMonthVo {
     @ExcelProperty(value = "12月完成率")
     private String twelveRate = "-";
 
+    //1、面见；2、增员；3、问卷
+    public static void change(TbStatisticsItemMonthVo vo, TbTask tbTask, Integer type) {
+        if (type == 1) { // 面见
+            vo.setOneWorks(tbTask.getOneViewsTasks());
+            vo.setTwoWorks(tbTask.getTwoViewsTasks());
+            vo.setThreeWorks(tbTask.getThreeViewsTasks());
+            vo.setFourWorks(tbTask.getFourViewsTasks());
+            vo.setFiveWorks(tbTask.getFiveViewsTasks());
+            vo.setSixWorks(tbTask.getSixViewsTasks());
+            vo.setSevenWorks(tbTask.getSevenViewsTasks());
+            vo.setEightWorks(tbTask.getEightViewsTasks());
+            vo.setNineWorks(tbTask.getNineViewsTasks());
+            vo.setTenWorks(tbTask.getTenViewsTasks());
+            vo.setElevenWorks(tbTask.getElevenViewsTasks());
+            vo.setTwelveWorks(tbTask.getTwelveViewsTasks());
+        } else if (type == 2) { // 增员
+            vo.setOneWorks(tbTask.getOneAddTasks());
+            vo.setTwoWorks(tbTask.getTwoAddTasks());
+            vo.setThreeWorks(tbTask.getThreeAddTasks());
+            vo.setFourWorks(tbTask.getFourAddTasks());
+            vo.setFiveWorks(tbTask.getFiveAddTasks());
+            vo.setSixWorks(tbTask.getSixAddTasks());
+            vo.setSevenWorks(tbTask.getSevenAddTasks());
+            vo.setEightWorks(tbTask.getEightAddTasks());
+            vo.setNineWorks(tbTask.getNineAddTasks());
+            vo.setTenWorks(tbTask.getTenAddTasks());
+            vo.setElevenWorks(tbTask.getElevenAddTasks());
+            vo.setTwelveWorks(tbTask.getTwelveAddTasks());
+        } else if (type == 3) { // 问卷
+            vo.setOneWorks(tbTask.getOneQuestionnaireTasks());
+            vo.setTwoWorks(tbTask.getTwoQuestionnaireTasks());
+            vo.setThreeWorks(tbTask.getThreeQuestionnaireTasks());
+            vo.setFourWorks(tbTask.getFourQuestionnaireTasks());
+            vo.setFiveWorks(tbTask.getFiveQuestionnaireTasks());
+            vo.setSixWorks(tbTask.getSixQuestionnaireTasks());
+            vo.setSevenWorks(tbTask.getSevenQuestionnaireTasks());
+            vo.setEightWorks(tbTask.getEightQuestionnaireTasks());
+            vo.setNineWorks(tbTask.getNineQuestionnaireTasks());
+            vo.setTenWorks(tbTask.getTenQuestionnaireTasks());
+            vo.setElevenWorks(tbTask.getElevenQuestionnaireTasks());
+            vo.setTwelveWorks(tbTask.getTwelveQuestionnaireTasks());
+        }
+    }
 }

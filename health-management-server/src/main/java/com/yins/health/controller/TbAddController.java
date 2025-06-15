@@ -71,7 +71,7 @@ public class TbAddController {
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbAdd tbAdd) {
         this.tbAddService.saveTbAdd(tbAdd);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 
     /**

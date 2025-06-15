@@ -46,6 +46,9 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
             "<if test='dto.endTime != null and dto.endTime != \"\"'>",
             "  AND i.CREATED_TIME &lt;= #{dto.endTime}",
             "</if>",
+            "<if test='dto.userId != null and dto.userId != \"\"'>",
+            "  AND i.CREATED_USER = #{dto.userId}",
+            "</if>",
             " order by i.CREATED_TIME desc",
             "</script>"
     })
@@ -72,6 +75,9 @@ public interface TbQuestionnaireItemDao extends BaseMapper<TbQuestionnaireItem> 
             "</if>",
             "<if test='dto.endTime != null and dto.endTime != \"\"'>",
             "  AND i.CREATED_TIME &lt;= #{dto.endTime}",
+            "</if>",
+            "<if test='dto.userId != null and dto.userId != \"\"'>",
+            "  AND i.CREATED_USER = #{dto.userId}",
             "</if>",
             " order by i.CREATED_TIME desc",
             "</script>"

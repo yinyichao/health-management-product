@@ -36,6 +36,11 @@ public class TbFileController {
     public AppResult mediaUrl(String mediaId){
         return AppResult.successResult(tbFileService.upload(mediaId));
     }
+    @GetMapping("/weixinUrl")
+    @Operation(summary = "会话文件上传")
+    public AppResult weixinUrl(String mediaId){
+        return AppResult.successResult(tbFileService.uploadWeixin(mediaId));
+    }
 /*    @GetMapping("/getDownloadUrl")
     @Operation(summary = "获取文件预览（临时）")
     public AppResult getDownloadUrl(String objectKey){

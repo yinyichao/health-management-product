@@ -12,6 +12,7 @@ import com.yins.health.entity.dto.RuleDto;
 import com.yins.health.entity.dto.TbQuestionnaireItemDto;
 import com.yins.health.entity.dto.TbStatisticsItemVDto;
 import com.yins.health.entity.vo.TbQuestionnaireItemVo;
+import com.yins.health.interceptor.LoginInterceptor;
 import com.yins.health.service.TbQuestionnaireItemService;
 import com.yins.health.service.TbRuleModelService;
 import com.yins.health.service.TbRuleService;
@@ -71,13 +72,13 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
                         .eq(TbQuestionnaireItem::getName,tbQuestionnaireItem.getName()).ge(TbQuestionnaireItem::getUpdatedTime, beginTime));
             }else{
                 switch (tbRule.getCycle()) {
-                    case "每月":
+                    case "月":
                         beginTime = TbRuleModelUtil.month();
                         break;
-                    case "每周":
+                    case "周":
                         beginTime = TbRuleModelUtil.week();
                         break;
-                    case "每日":
+                    case "日":
                         beginTime = TbRuleModelUtil.day();
                         break;
                     case "小时":
@@ -91,6 +92,9 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
         }
         tbQuestionnaireItem.setLabel(ruleDto.getLabel());
         tbQuestionnaireItem.setLabelContent(ruleDto.getContent());
+        if(ruleDto.getLabel().equals("高风险")){
+            tbQuestionnaireItem.setState("作废");
+        }
         baseMapper.insert(tbQuestionnaireItem);
         for(TbRuleModel tbRuleModel : list){
             tbRuleModel.setModelId(tbQuestionnaireItem.getId());
@@ -100,6 +104,10 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
 
     @Override
     public IPage<TbQuestionnaireItemVo> pageByTbQuestionnaireItem(TbQuestionnaireItemDto tbQuestionnaireItemDto) {
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        if(isAdmin == 0){
+            tbQuestionnaireItemDto.setUserId(LoginInterceptor.threadLocal.get().getId());
+        }
         IPage<TbQuestionnaireItemVo> page = new Page<>();
         page.setCurrent(tbQuestionnaireItemDto.getPageNum());
         page.setSize(tbQuestionnaireItemDto.getPageSize());
@@ -115,6 +123,10 @@ public class TbQuestionnaireItemServiceImpl extends ServiceImpl<TbQuestionnaireI
 
     @Override
     public List<TbQuestionnaireItemVo> listByTbAdd(TbQuestionnaireItemDto tbQuestionnaireItemDto) {
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        if(isAdmin == 0){
+            tbQuestionnaireItemDto.setUserId(LoginInterceptor.threadLocal.get().getId());
+        }
         tbQuestionnaireItemDto.setBeginTime(tbQuestionnaireItemDto.getBeginDateTime());
         tbQuestionnaireItemDto.setEndTime(tbQuestionnaireItemDto.getEndDateTime());
         return baseMapper.selectByList(tbQuestionnaireItemDto);

@@ -73,7 +73,7 @@ public class TbViewController {
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbView tbView) {
         this.tbViewService.saveTbView(tbView);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 
     /**

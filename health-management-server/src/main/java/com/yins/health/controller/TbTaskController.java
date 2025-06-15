@@ -61,7 +61,7 @@ public class TbTaskController {
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbTaskVo tbTaskVo) {
         this.tbTaskService.saveTbTask(tbTaskVo);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 
     /**
@@ -74,7 +74,7 @@ public class TbTaskController {
     @Operation(summary = "修改数据")
     public AppResult update(@RequestBody TbTaskVo tbTaskVo) {
         this.tbTaskService.updateTbTask(tbTaskVo);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 
     /**
@@ -86,7 +86,7 @@ public class TbTaskController {
     @Operation(summary = "删除结果")
     public AppResult delete(@RequestParam("id") Integer id) {
         this.tbTaskService.removeTbTask(id);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 }
 

@@ -7,6 +7,7 @@ import com.yins.health.common.ServiceException;
 import com.yins.health.conf.RedisKey;
 import com.yins.health.conf.RemoteServiceConfig;
 import com.yins.health.dto.AccountDto;
+import com.yins.health.util.Convert;
 import com.yins.health.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -86,7 +87,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             // 6. 设置用户信息到上下文
 
             String username = (String) jwt.getPayload("username");
-            AccountDto accountDTO = AccountDto.builder().id(userId).username(username).build();
+            Integer isAdmin = Convert.toInt(jwt.getPayload("isAdmin"));
+            AccountDto accountDTO = AccountDto.builder().id(userId).username(username).isAdmin(isAdmin).build();
             threadLocal.set(accountDTO);
             return true;
         } catch (Exception e) {

@@ -72,9 +72,15 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                     .eq(TbAdd::getCreatedUser,tbStatistics.getUserId()).ge(TbAdd::getUpdatedTime, TbRuleModelUtil.month()));
             item.setAddWorks(counts);
             counts = tbViewService.count(new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0).eq(TbView::getState, "有效")
-                    .eq(TbView::getCreatedUser,tbStatistics.getUserId()).ge(TbView::getUpdatedTime, TbRuleModelUtil.month()));
+                    .and(wrapper -> wrapper
+                            .eq(TbView::getCreatedUser, tbStatistics.getUserId())
+                            .or()
+                            .eq(TbView::getVisitorId, tbStatistics.getUserId())
+                    )
+                    .ge(TbView::getUpdatedTime, TbRuleModelUtil.month()));
             item.setViewsWorks(counts);
             item.setYear(currentYear);
+            item.setStatisticsId(tbStatistics.getId());
             saveList.add(item);
         }
         this.saveBatch(saveList);
@@ -171,6 +177,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                     itemWeek.setAddWorks(weekAddWorks);
                     itemWeek.setViewsWorks(weekViewWorks);
                     itemWeek.setQuestionnaireWorks(weekQuestionnaireWorks);
+                    itemWeek.setStatisticsId(tbStatistics.getId());
                     saveList.add(itemWeek);
                     // 获取本周的周一
                     beginWeek = givenDate.with(DayOfWeek.MONDAY);
@@ -209,6 +216,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
                         itemWeek.setAddWorks(weekAddWorks);
                         itemWeek.setViewsWorks(weekViewWorks);
                         itemWeek.setQuestionnaireWorks(weekQuestionnaireWorks);
+                        itemWeek.setStatisticsId(tbStatistics.getId());
                         saveList.add(itemWeek);
                     }
                 }
@@ -228,6 +236,7 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
             item.setType(0);
             item.setCycle(key);
         }
+        item.setStatisticsId(tbStatistics.getId());
         item.setYear(currentYear);
         item.setQuestionnaireTasks(tbTask.getDayQuestionnaireTasks());
         item.setAddTasks(tbTask.getDayAddTasks());
@@ -326,9 +335,31 @@ public class TbStatisticsItemServiceImpl extends ServiceImpl<TbStatisticsItemDao
         List<TbStatisticsItemVo> tbStatisticsItems = baseMapper.selectMonthAll(tbStatisticsItemDto);
 
         List<TbStatisticsItemMonthVoOld> list = CommonUtil.convert(tbStatisticsItems, TbStatisticsItemMonthVoOld.class);
-        return TbStatisticsItemMonthVoOld.change(list,tbStatisticsItemDto.getType());
+        return change(list,tbStatisticsItemDto.getType());
     }
-
+    public List<TbStatisticsItemMonthVo> change(List<TbStatisticsItemMonthVoOld> list,Integer type) {
+        TbStatisticsItemMonthVo vo;
+        Map<String,TbStatisticsItemMonthVo> map = new LinkedHashMap<String,TbStatisticsItemMonthVo>();
+        for (TbStatisticsItemMonthVoOld item : list) {
+            map.putIfAbsent(item.getDeptName(), new TbStatisticsItemMonthVo().setUserName(item.getDeptName()));
+            if(map.containsKey(item.getDeptName()+item.getUserName())){
+                vo = map.get(item.getDeptName()+item.getUserName());
+            }else {
+                TbStatisticsItemMonthVo tbStatisticsItemMonthVo = new TbStatisticsItemMonthVo();
+                TbTask tbTask = tbTaskDao.selectById(item.getTaskId());
+                TbStatisticsItemMonthVo.change(tbStatisticsItemMonthVo,tbTask,type);
+                vo = tbStatisticsItemMonthVo;
+            }
+            //vo = map.getOrDefault(item.getDeptName()+item.getUserName(), new TbStatisticsItemMonthVo());
+            vo.setUserName(item.getUserName());
+            item.setViewsWorksRate();
+            item.setAddWorksRate();
+            item.setQuestionnaireWorksRate();
+            TbStatisticsItemMonthVoOld.month(vo,item,type);
+            map.put(item.getDeptName()+item.getUserName(), vo);
+        }
+        return new ArrayList<>(map.values());
+    }
     @Override
     public List<TbStatisticsItemYearVo> selectYearAll(TbStatisticsItemDto tbStatisticsItemDto) {
         List<TbStatisticsItemYearVo> list = baseMapper.selectYearAll(tbStatisticsItemDto);

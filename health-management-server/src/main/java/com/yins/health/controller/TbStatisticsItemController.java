@@ -62,7 +62,7 @@ public class TbStatisticsItemController {
     @GetMapping("/selectOne")
     public AppResult selectOne() {
         tbStatisticsItemService.month();
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
     /**
      * 通过主键查询单条数据
@@ -72,7 +72,7 @@ public class TbStatisticsItemController {
     @GetMapping("/selectTwo")
     public AppResult selectTwo() {
         tbStatisticsItemService.day_week();
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
     @ApiOperation(value = "日常完成任务结果导出", notes = "日常完成任务结果导出")
     @PostMapping(value = "/exportYearAll")

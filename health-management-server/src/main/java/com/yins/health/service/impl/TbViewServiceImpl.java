@@ -42,26 +42,52 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
         IPage<TbView> page = new Page<>();
         page.setCurrent(tbViewDto.getPageNum());
         page.setSize(tbViewDto.getPageSize());
-        return baseMapper.selectPage(page, new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0)
-                .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel())
-                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitor()), TbView::getVisitor, tbViewDto.getVisitor())
-                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        LambdaQueryWrapper<TbView> wrapper = new LambdaQueryWrapper<TbView>()
+                .eq(TbView::getDel, 0)
+                .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel());
+        // 只有 visitor 非空时才添加 OR 条件
+        if (StringUtils.isNotEmpty(tbViewDto.getVisitor())) {
+            wrapper.and(w -> w
+                    .eq(TbView::getVisitor, tbViewDto.getVisitor())
+                    .or()
+                    .eq(TbView::getUsername, tbViewDto.getVisitor())
+            );
+        }
+        if(isAdmin == 0){
+            wrapper.eq(TbView::getCreatedUser,LoginInterceptor.threadLocal.get().getId());
+        }
+        wrapper.eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
                 .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginDateTime())
                 .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime())
-                .orderByDesc(TbView::getCreatedTime));
+                .orderByDesc(TbView::getCreatedTime);
+        return baseMapper.selectPage(page,wrapper);
     }
 
     @Override
     public List<TbView> listByTbAdd(TbViewDto tbViewDto) {
-        return baseMapper.selectList(new LambdaQueryWrapper<TbView>().eq(TbView::getDel, 0)
-                .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel())
-                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitor()), TbView::getVisitor, tbViewDto.getVisitor())
-                .eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
+        Integer isAdmin = LoginInterceptor.threadLocal.get().getIsAdmin();
+        LambdaQueryWrapper<TbView> wrapper = new LambdaQueryWrapper<TbView>()
+                .eq(TbView::getDel, 0)
+                .eq(StringUtils.isNotEmpty(tbViewDto.getLabel()), TbView::getLabel, tbViewDto.getLabel());
+        // 只有 visitor 非空时才添加 OR 条件
+        if (StringUtils.isNotEmpty(tbViewDto.getVisitor())) {
+            wrapper.and(w -> w
+                    .eq(TbView::getVisitor, tbViewDto.getVisitor())
+                    .or()
+                    .eq(TbView::getUsername, tbViewDto.getVisitor())
+            );
+        }
+        if(isAdmin == 0){
+            wrapper.eq(TbView::getCreatedUser,LoginInterceptor.threadLocal.get().getId());
+        }
+        wrapper.eq(StringUtils.isNotEmpty(tbViewDto.getVisitedPerson()), TbView::getVisitedPerson, tbViewDto.getVisitedPerson())
                 .eq(StringUtils.isNotEmpty(tbViewDto.getState()), TbView::getState, tbViewDto.getState())
                 .ge(StringUtils.isNotEmpty(tbViewDto.getBeginTime()), TbView::getCreatedTime, tbViewDto.getBeginDateTime())
                 .le(StringUtils.isNotEmpty(tbViewDto.getEndTime()), TbView::getCreatedTime, tbViewDto.getEndDateTime())
-                .orderByDesc(TbView::getCreatedTime));
+                .orderByDesc(TbView::getCreatedTime);
+        return baseMapper.selectList(wrapper);
     }
 
     @Override
@@ -77,13 +103,13 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
         RuleDto ruleDto = new RuleDto();
         for (TbRule tbRule : tbRuleList) {
             switch (tbRule.getCycle()) {
-                case "每月":
+                case "月":
                     beginTime = TbRuleModelUtil.month();
                     break;
-                case "每周":
+                case "周":
                     beginTime = TbRuleModelUtil.week();
                     break;
-                case "每日":
+                case "日":
                     beginTime = TbRuleModelUtil.day();
                     break;
                 case "小时":
@@ -96,6 +122,9 @@ public class TbViewServiceImpl extends ServiceImpl<TbViewDao, TbView> implements
         }
         tbView.setLabel(ruleDto.getLabel());
         tbView.setLabelContent(ruleDto.getContent());
+        if(ruleDto.getLabel().equals("高风险")){
+            tbView.setState("作废");
+        }
         baseMapper.insert(tbView);
         for(TbRuleModel tbRuleModel : list){
             tbRuleModel.setModelId(tbView.getId());

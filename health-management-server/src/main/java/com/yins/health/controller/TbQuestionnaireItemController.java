@@ -73,7 +73,7 @@ public class TbQuestionnaireItemController {
     @Operation(summary = "新增数据")
     public AppResult insert(@RequestBody TbQuestionnaireItem tbQuestionnaireItem) {
         this.tbQuestionnaireItemService.saveTbQuestionnaireItem(tbQuestionnaireItem);
-        return AppResult.successResult("");
+        return AppResult.emptyResult();
     }
 
     /**

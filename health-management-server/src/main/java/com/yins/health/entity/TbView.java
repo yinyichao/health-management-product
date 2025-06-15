@@ -40,6 +40,8 @@ public class TbView extends Model<TbView> {
     @ApiModelProperty(value = "陪访者")
     @ExcelProperty(value = "陪访者")
     private String visitor;
+    @ApiModelProperty(value = "陪访者ID")
+    private String visitorId;
 
     @ApiModelProperty(value = "规则类型（高风险、中风险、低风险）")
     @ExcelProperty(value = "风险类型")

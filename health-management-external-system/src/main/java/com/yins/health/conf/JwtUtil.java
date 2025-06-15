@@ -62,6 +62,7 @@ public class JwtUtil {
                 .subject(LOGIN_SUBJECT)
                 .claim("accountId", accountDTO.getId())
                 .claim("username", accountDTO.getUsername())
+                .claim("isAdmin", accountDTO.getIsAdmin())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRED))
                 .signWith(KEY, ALGORITHM)  // 直接使用KEY即可

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TbViewDto extends Query {
-    @ApiModelProperty(value = "拜访者")
+    @ApiModelProperty(value = "拜访者/陪访者")
     private String visitor;
     @ApiModelProperty(value = "被拜访者")
     private String visitedPerson;

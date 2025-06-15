@@ -93,6 +93,30 @@ public class TbFileServiceImpl extends ServiceImpl<TbFileDao, TbFile> implements
         baseMapper.insert(tbFile);
         return downloadUrl;
     }
+
+    @Override
+    public String uploadWeixin(String mediaId) {
+        String redisToken = getAccessToken1();
+        String url = weixinConfig.getWeixinmediaUrl() + "?access_token="+redisToken+"&media_id=" + mediaId;
+        String objectKey = "";
+
+        try {
+            objectKey = downloadAndUploadToS3(url,minioConfig.getHealthBucketName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String downloadUrl = minioConfig.getPre() + objectKey;
+        TbFile tbFile = new TbFile();
+        tbFile.setObjectKey(downloadUrl);
+        tbFile.setFileName(objectKey);
+        if(LoginInterceptor.threadLocal.get() != null) {
+            String userid = LoginInterceptor.threadLocal.get().getId();
+            tbFile.setCreatedUser(userid);
+        }
+        baseMapper.insert(tbFile);
+        return downloadUrl;
+    }
+
     public String downloadAndUploadToS3(String fileUrl, String bucketName) throws Exception {
         // 下载文件
         ResponseEntity<Resource> response = restTemplate.getForEntity(fileUrl, Resource.class);
@@ -123,6 +147,33 @@ public class TbFileServiceImpl extends ServiceImpl<TbFileDao, TbFile> implements
         fileStoreEngine.upload(bucketName, objectKey, fileBytes);
         System.out.println("上传成功：" + objectKey);
         return objectKey;
+    }
+    private String getAccessToken1() {
+        String tokenKey = redisKey.weixin_access_token;
+        String redisToken = stringRedisTemplate.opsForValue().get(tokenKey);
+        if (redisToken == null) {
+            String url = weixinConfig.getWeixinTokenUrl();
+            String res;
+            // 构建请求体JSON
+            String requestBody = String.format(
+                    "{\"grant_type\": \"client_credential\", \"appid\": \"%s\", \"secret\": \"%s\", \"force_refresh\": true}",
+                    weixinConfig.getAppID(), weixinConfig.getSecret());
+            try {
+                res = com.yins.health.util.http.HttpUtils.post(url,null,requestBody);
+            } catch (Exception e) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }
+            JSONObject json = JSONUtil.parseObj(res);
+            redisToken = json.getStr("access_token");
+            if(redisToken == null) {
+                throw new BizException(BizCodeEnum.ACCOUNT_UNREGISTER);
+            }else{
+                Long expires = json.getLong("expires_in");
+                stringRedisTemplate.opsForValue().set(tokenKey,redisToken,expires, TimeUnit.SECONDS);
+            }
+        }
+        System.out.println("-----------------------------"+redisToken);
+        return redisToken;
     }
     private String getAccessToken() {
         String tokenKey = redisKey.access_token;

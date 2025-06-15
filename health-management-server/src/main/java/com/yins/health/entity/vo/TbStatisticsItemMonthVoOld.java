@@ -58,6 +58,7 @@ public class TbStatisticsItemMonthVoOld {
     @ApiModelProperty(value = "问卷完成率")
     @ExcelProperty(value = "questionnaireWorksRate")
     private String questionnaireWorksRate;
+    private Integer taskId;
 
     public void setViewsWorksRate() {
         if(this.viewsTasks == 0 || this.viewsWorks == 0){
@@ -88,21 +89,7 @@ public class TbStatisticsItemMonthVoOld {
             this.questionnaireWorksRate = df.format(percentage) + "%";
         }
     }
-    public static List<TbStatisticsItemMonthVo> change(List<TbStatisticsItemMonthVoOld> list,Integer type) {
-        TbStatisticsItemMonthVo vo;
-        Map<String,TbStatisticsItemMonthVo> map = new LinkedHashMap<String,TbStatisticsItemMonthVo>();
-        for (TbStatisticsItemMonthVoOld item : list) {
-            map.putIfAbsent(item.getDeptName(), new TbStatisticsItemMonthVo().setUserName(item.getDeptName()));
-            vo = map.getOrDefault(item.getDeptName()+item.getUserName(), new TbStatisticsItemMonthVo());
-            vo.setUserName(item.getUserName());
-            item.setViewsWorksRate();
-            item.setAddWorksRate();
-            item.setQuestionnaireWorksRate();
-            month(vo,item,type);
-            map.put(item.getDeptName()+item.getUserName(), vo);
-        }
-        return new ArrayList<>(map.values());
-    }
+
     public static void month(TbStatisticsItemMonthVo vo,TbStatisticsItemMonthVoOld item,Integer type) {
         YearMonth ym = YearMonth.parse(item.getCycle());
         int month = ym.getMonthValue();
